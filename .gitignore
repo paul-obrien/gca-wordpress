@@ -1,0 +1,13 @@
+wp-content/uploads
+sitemap.xml
+sitemap.xml.gz
+wp-content/cache/supercache
+.DS_Store
+wp-content/cache/
+wp-content/exports
+wp-config.php
+.htaccess
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+*.zip
+robots.txt

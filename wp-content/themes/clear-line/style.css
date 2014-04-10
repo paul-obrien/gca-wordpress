@@ -186,3 +186,26 @@ div.aligncenter {
 	color:#000000;
 	text-decoration:underline;
 }
+
+.register_field {
+	margin-bottom: 10px;
+	font-size: 30px;
+}
+
+.register_field label, input{
+	display: inline-block;
+}
+
+.register_field label {
+	width: 30%;
+	text-align: right;
+}
+
+.profile_header {
+	font-size: 40px;
+}
+
+.public_profile_url {
+	margin-top: 10px;
+}
+

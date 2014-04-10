@@ -3,6 +3,7 @@
 /**
  * W3 Total Cache Object Cache
  */
+return;
 if (!defined('ABSPATH')) {
     die();
 }

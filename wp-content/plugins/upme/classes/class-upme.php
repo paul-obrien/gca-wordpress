@@ -568,8 +568,8 @@ class UPME {
 
         $current_option = get_option('upme_options');
 
-        $username = get_the_author_meta('user_login', $id);
-
+        $slug= get_the_author_meta('slug', $id);
+        if ($slug.trim() == '') return;
         if (isset($current_option['profile_page_id']))
             $link = get_permalink($current_option['profile_page_id']);
         else
@@ -594,7 +594,7 @@ class UPME {
                     return add_query_arg(array('username' => $username), $link);
                 } else {
                     $username = str_replace('@', '-at-', $username);
-                    return $link . $username;
+                    return $link . $slug;
                 }
             } else {
                 if ('DEFAULT' == $permalink_structure) {
@@ -826,12 +826,9 @@ class UPME {
 
                 if (isset($current_option['profile_url_type']) && 2 == $current_option['profile_url_type']) {
 
-                    $userdata = get_user_by('login', $upme_profile_filter_value);
-                    if (!$userdata) {
-                        $userdata = get_users(array('meta_key' => 'slug', 'meta_value' => $upme_profile_filter_value));
-                        if ($userdata && $userdata[0]) {
-                            $userdata = $userdata[0];
-                        }
+                    $userdata = get_users(array('meta_key' => 'slug', 'meta_value' => $upme_profile_filter_value));
+                    if ($userdata && $userdata[0]) {
+                        $userdata = $userdata[0];
                     }
                     if ($userdata != false) {
                         $id = $userdata->data->ID;
@@ -1829,7 +1826,7 @@ class UPME {
 
                     $display .= '<div class="upme-head">
                      
-                    <div class="upme-left">';
+                    <div class="profile-header-left upme-left">';
 
                     // Enable profile loading on new window
                     $new_window_display = ('yes' == $new_window || 'true' == $new_window) ? ' target="_blank" ' : '';
@@ -1837,8 +1834,10 @@ class UPME {
 
                     $params = array('id' => $id, 'view' => $view, 'modal' => $modal, 'group'=>$group , 'use_in_sidebar'=>$use_in_sidebar, 'context' => 'normal');
                     /* UPME Filter for customizing profile URL */
-                    $profile_url = apply_filters('upme_custom_profile_url',$this->profile_link($id),$params);
-                    // End Filter
+                    if ($this->profile_link($id)) {
+                        $profile_url = apply_filters('upme_custom_profile_url',$this->profile_link($id),$params);
+                    }
+                    // fu Filter
                                 
                     // Override new window setting when modal is set
                     if('yes' == $modal || 'true' == $modal){
@@ -1880,7 +1879,7 @@ class UPME {
                     if ($this->can_edit_profile($this->logged_in_user, $id)) {
 
                         $display .= '<div class="upme-name">
-                        <div class="upme-field-name">';                        
+                        <div class="profile-title upme-field-name">';                        
         
                         if ($this->get_option('clickable_profile')) {
                             if ($this->get_option('clickable_profile') == 1) { 
@@ -1903,8 +1902,10 @@ class UPME {
 
                         $display .= '</div>';
 
-                        $display .= '<div class="public_profile_url">Public Profile URL: ' . $profile_url .'</div>';
-                        
+                        #if ($profile_url) {
+                        #    $display .= '<div class="public_profile_url">Public Profile URL: ' . $profile_url .'</div>';
+                        #}
+
                         if ($use_in_sidebar == 'yes' || $use_in_sidebar) {
                             $link = get_permalink($this->get_option('profile_page_id'));
                             $class = "upme-button-alt";
@@ -1988,7 +1989,11 @@ class UPME {
 
                     $display .= '</div>';
 
-
+                    $display .= '<div class="header_data upme-left"><div class="header_sport">' . get_the_author_meta('sport', $id) . '</div>';
+                    $display .= '<div class="header_hometown">' . get_the_author_meta('hometown', $id) . '</div>';
+                    $display .= '<div class="header_school">' . get_the_author_meta('current_school', $id) . " Class of " . get_the_author_meta('class_of', $id) . '</div>';
+                    $display .= '<div class="header_vitals">' . get_the_author_meta('gender', $id) . 
+                                 " " . get_the_author_meta('height', $id) . " " . get_the_author_meta('weight', $id) . '</div></div>';
 
                     if (($width == '2' || $width == '3') && ($view != 'compact')) {
                         $display .= '<div class="upme-clear"></div>';
@@ -2162,7 +2167,7 @@ class UPME {
         }
 
         if ($user_pic != '') {
-            return '<img id="upme-avatar-user_pic" src="' . $user_pic . '" class="avatar avatar-50" />';
+            return '<img id="upme-avatar-user_pic" src="' . $user_pic . '" class="avatar avatar-100" />';
         } else {
             return get_avatar($id, $size);
         }
@@ -2286,11 +2291,11 @@ class UPME {
                         /* Show the label */
                         if (isset($array[$key]['name']) && $name) {
                             $display .= '<label class="upme-field-type" for="' . $meta . '-' . $id . '">';
-                            if (isset($array[$key]['icon']) && $icon) {
-                                $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                            } else {
-                                $display .= '<i class="upme-icon-none"></i>';
-                            }
+                            #if (isset($array[$key]['icon']) && $icon) {
+                            #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                            #} else {
+                            #    $display .= '<i class="upme-icon-none"></i>';
+                            #}
                             $display .= '<span>' . apply_filters('upme_edit_profile_label_' . $meta, $name) . '</span></label>';
                         } else {
                             if (isset($array[$key]['icon']) && $icon) {
@@ -2662,11 +2667,11 @@ class UPME {
                             $display .= '<div class="upme-field upme-view">';
                             $display.= '<div class="upme-field-type">';
 
-                            if (isset($profile_fields_icon) && $icon) {
-                                $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                            } else {
-                                $display .= '<i class="upme-icon-none"></i>';
-                            }
+                            #if (isset($profile_fields_icon) && $icon) {
+                            #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                            #} else {
+                            #    $display .= '<i class="upme-icon-none"></i>';
+                            #}
                             $display.= '<span>' . apply_filters('upme_profile_label_' . $meta, $name) . '</span>';
                             $display .= '</div>';
 
@@ -2703,11 +2708,11 @@ class UPME {
                                         $display .= '<div class="upme-field upme-view">
                                     <div class="upme-field-type">';
 
-                                        if (isset($profile_fields[$key]['icon']) && $icon) {
-                                            $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                                        } else {
-                                            $display .= '<i class="upme-icon-none"></i>';
-                                        }
+                                        #if (isset($profile_fields[$key]['icon']) && $icon) {
+                                        #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                                        #} else {
+                                        #    $display .= '<i class="upme-icon-none"></i>';
+                                        #}
 
                                         $display .= '<span>' . apply_filters('upme_profile_label_' . $meta, __('Name', 'upme')) . '</span></div>
                                     <div class="upme-field-value"><span>' . apply_filters('upme_profile_value_' . $meta, $this->get_user_name($id)) . '</span></div>
@@ -2730,11 +2735,11 @@ class UPME {
                                         $display .= '<div class="upme-field upme-view">
                                     <div class="upme-field-type">';
 
-                                        if (isset($profile_fields[$key]['icon']) && $icon) {
-                                            $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                                        } else {
-                                            $display .= '<i class="upme-icon-none"></i>';
-                                        }
+                                        #if (isset($profile_fields[$key]['icon']) && $icon) {
+                                        #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                                        #} else {
+                                        #    $display .= '<i class="upme-icon-none"></i>';
+                                        #}
 
 
                                         $display .= '<span>' . apply_filters('upme_profile_label_' . $meta, $name) . '</span></div>
@@ -3123,11 +3128,11 @@ class UPME {
                             $display .= '<label class="upme-field-type" for="' . $meta . '">';
 
 
-                            if (isset($this->registration_fields[$key]['icon']) && $icon) {
-                                $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                            } else {
-                                $display .= '<i class="upme-icon-none"></i>';
-                            }
+                            #if (isset($this->registration_fields[$key]['icon']) && $icon) {
+                            #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                            #} else {
+                            #    $display .= '<i class="upme-icon-none"></i>';
+                            #}
 
                             $display .= '<span>' . apply_filters('upme_registration_label_' . $meta, $name) . '</span></label>';
                         } else {
@@ -3296,11 +3301,11 @@ class UPME {
                     /* Show the label */
                     if (isset($array[$key]['name']) && $name) {
                         $display .= '<label class="upme-field-type" for="' . $meta . '">';
-                        if (isset($array[$key]['icon']) && $icon) {
-                            $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                        } else {
-                            $display .= '<i class="upme-icon-none"></i>';
-                        }
+                        #if (isset($array[$key]['icon']) && $icon) {
+                        #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                        #} else {
+                        #    $display .= '<i class="upme-icon-none"></i>';
+                        #}
                         $display .= '<span>' . $name . '</span></label>';
                     } else {
                         $display .= '<label class="upme-field-type">&nbsp;</label>';
@@ -3599,23 +3604,23 @@ class UPME {
                 if ($sidebar_class == null) {
                     if (isset($this->login_fields[$key]['name']) && $name) {
                         $display .= '<label class="upme-field-type" for="' . $meta . '">';
-                        if (isset($this->login_fields[$key]['icon']) && $icon) {
-                            $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                        } else {
-                            $display .= '<i class="upme-icon-none"></i>';
-                        }
+                        #if (isset($this->login_fields[$key]['icon']) && $icon) {
+                        #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
+                        #} else {
+                        #    $display .= '<i class="upme-icon-none"></i>';
+                        #}
                         $display .= '<span>' . apply_filters('upme_login_label_' . $meta, $name) . '</span></label>';
                     } else {
                         $display .= '<label class="upme-field-type">&nbsp;</label>';
                     }
                 } else {
-                    $icon_name.='<label class="upme-field-type-sidebar">';
-                    if (isset($this->login_fields[$key]['icon']) && $icon) {
-                        $icon_name .= '<i class="upme-icon-' . $icon . '"></i>';
-                    } else {
-                        $icon_name .= '<i class="upme-icon-none"></i>';
-                    }
-                    $icon_name.='</label>';
+                    #$icon_name.='<label class="upme-field-type-sidebar">';
+                    #if (isset($this->login_fields[$key]['icon']) && $icon) {
+                    #    $icon_name .= '<i class="upme-icon-' . $icon . '"></i>';
+                    #} else {
+                    #    $icon_name .= '<i class="upme-icon-none"></i>';
+                    #}
+                    #$icon_name.='</label>';
                     $placeholder = ' placeholder="' . $name . '"';
                     $input_ele_class = ' in_sidebar_value';
                 }
@@ -4043,13 +4048,13 @@ class UPME {
                 $icon_name = '';
                 $input_ele_class = '';
 
-                $icon_name.='<label class="upme-field-type-sidebar">';
-                if (isset($this->login_fields[$key]['icon']) && $icon) {
-                    $icon_name .= '<i class="upme-icon-' . $icon . '"></i>';
-                } else {
-                    $icon_name .= '<i class="upme-icon-none"></i>';
-                }
-                $icon_name.='</label>';
+                #$icon_name.='<label class="upme-field-type-sidebar">';
+                #if (isset($this->login_fields[$key]['icon']) && $icon) {
+                #    $icon_name .= '<i class="upme-icon-' . $icon . '"></i>';
+                #} else {
+                #    $icon_name .= '<i class="upme-icon-none"></i>';
+                #}
+                #$icon_name.='</label>';
                 $placeholder = ' placeholder="' . $name . '"';
                 $input_ele_class = ' in_sidebar_value';
 
@@ -4295,7 +4300,7 @@ class UPME {
         $profile_title_display = '';
 
         if ('combined_fname_lname' == $profile_title_field) {
-            $profile_title_display = trim(get_the_author_meta('first_name', $id) . " " . get_the_author_meta('last_name', $id));
+            $profile_title_display = trim(get_the_author_meta('first_name', $id) . "<br/>" . get_the_author_meta('last_name', $id));
         } else if ('combined_lname_fname' == $profile_title_field) {
             $last_name = get_the_author_meta('last_name', $id);
             $first_name = get_the_author_meta('first_name', $id);

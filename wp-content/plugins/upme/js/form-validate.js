@@ -316,7 +316,7 @@ jQuery(document).ready(function() {
                         
             if(!jQuery(slug_field_id).hasClass('error') && jQuery(slug_field_id).length > 0 )
             {
-                if(!slug_reg.test(jQuery(slug_field_id).val()))
+                if(jQuery(slug_field_id).val().trim() && !slug_reg.test(jQuery(slug_field_id).val()))
                 {
                     err = true;
                     
@@ -517,7 +517,8 @@ jQuery(document).ready(function() {
 
         var user_id = jQuery(this).closest('form').find('#upme-edit-usr-id').val();
 
-        var newSlug = jQuery(this).val();
+        var newSlug = jQuery(this).val().trim();
+        if (!newSlug) return;
         var slug = jQuery(this);
         var slug_reg = /^([a-zA-Z0-9_-])+$/;
         var message;

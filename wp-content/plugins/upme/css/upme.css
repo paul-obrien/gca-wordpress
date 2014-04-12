@@ -2,7 +2,7 @@ div.upme-wrap {
     float: left;
     width: 100%;
     max-width: 100%;
-    font-family: Open Sans;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0 0 20px 0;
 }
 
@@ -38,6 +38,11 @@ div.upme-wrap .upme-head img.avatar-50 {
     height: 50px;
 }
 
+div.upme-wrap .upme-head img.avatar-100 {
+    width: 100px;
+    height: 100px;
+}
+
 div.upme-head {
     padding: 15px 20px;
     margin: 0;
@@ -50,7 +55,6 @@ div.upme-post-head {
 
 div.upme-wrap div.upme-head img.avatar {
     padding: 5px;
-    border-radius: 50px;
     margin: 0;
 }
 
@@ -247,7 +251,7 @@ label.upme-checkbox input[type=checkbox], label.upme-radio input[type=radio] {
 input.upme-input, select.upme-input, textarea.upme-input,
 /*Fix for bootstrap and popular themes*/ #top .upme-input, #top input.upme-input[type="text"], #top input.upme-input[type="input"], #top input.upme-input[type="password"], #top input.upme-input[type="email"], #top input.upme-input[type="search"], #top select.upme-input
 {
-    font-family: Open Sans;
+    font-family: Arial, Helvetica, sans-serif;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -907,13 +911,17 @@ div.upme-widget-wrap .upme-rememberme {
 
 div.upme-widget-wrap div.upme-widget-head img.avatar {
     padding: 5px;
-    border-radius: 50px;
     margin: 0;
 }
 
 div.upme-widget-wrap .upme-widget-head img.avatar-50 {
     width: 50px;
     height: 50px;
+}
+
+div.upme-widget-wrap .upme-widget-head img.avatar-50 {
+    width: 100px;
+    height: 100px;
 }
 
 div.upme-widget-wrap div.upme-pic {
@@ -1012,5 +1020,20 @@ html{
     top: 50%;
     width: 50px;
     z-index: 9999;
+}
+
+.profile-header-left {
+    min-width: 40%;
+    width: auto;
+}
+
+.profile-title {
+    font-size: 50px !important;
+    line-height: 50px !important;
+}
+
+.header_data {
+    font-size: 20px;
+    margin-left: 40px !important;
 }
 

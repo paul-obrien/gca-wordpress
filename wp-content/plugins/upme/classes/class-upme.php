@@ -925,7 +925,7 @@ class UPME {
             $this->profile_order = $order;
 
         $sidebar_class = null;
-        $name_holder_width = '50%';
+        $name_holder_width = '80%';
         if ($use_in_sidebar) {
             $sidebar_class = 'upme-sidebar';
             $name_holder_width = '100%';
@@ -959,7 +959,7 @@ class UPME {
 
         /* UPME Filter for customizing profile picture */
         $params = array('id'=> $this->logged_in_user, 'view' => $view, 'modal' => null, 'use_in_sidebar'=>$use_in_sidebar,'context'=>'mini_profile');
-        $profile_pic_display = '<a '.$new_window_display.' href="' . $profile_url . '">' . $this->pic($this->logged_in_user, 50) . '</a>';
+        $profile_pic_display = '<a '.$new_window_display.' href="' . $profile_url . '">' . $this->pic($this->logged_in_user, 100) . '</a>';
         $profile_pic_display = apply_filters('upme_custom_profile_pic',$profile_pic_display,$params);
         $display .= $profile_pic_display;
         // End Filter
@@ -971,7 +971,7 @@ class UPME {
         // Get value of profile title field or default display name if empty
         $profile_title_display = $this->upme_profile_title_value($profile_title_field, $this->logged_in_user);
 
-        $display.='<div class="upme-field-name">';
+        $display.='<div class="upme-field-name profile-title">';
         if ($this->get_option('clickable_profile')) {
             if ($this->get_option('clickable_profile') == 1) {                
 
@@ -1962,7 +1962,7 @@ class UPME {
                     } else {
 
                         $display .= '<div class="upme-name">
-                        <div class="upme-field-name upme-field-name-wide">';
+                        <div class="profile-title upme-field-name upme-field-name-wide">';
 
                         if ($this->get_option('clickable_profile')) {
                             if ($this->get_option('clickable_profile') == 1) {
@@ -2622,7 +2622,7 @@ class UPME {
             $display.='<div class="upme-clear"></div>';
         }
 
-        /* echo "<pre>";
+         /* echo "<pre>";
           print_r($profile_fields); die; */
         foreach ($profile_fields as $key => $field) {
             //echo "<pre>";
@@ -2704,20 +2704,9 @@ class UPME {
 
 
 
-                                    if ($meta == 'first_name') {
-                                        $display .= '<div class="upme-field upme-view">
-                                    <div class="upme-field-type">';
-
-                                        #if (isset($profile_fields[$key]['icon']) && $icon) {
-                                        #    $display .= '<i class="upme-icon-' . $icon . '"></i>';
-                                        #} else {
-                                        #    $display .= '<i class="upme-icon-none"></i>';
-                                        #}
-
-                                        $display .= '<span>' . apply_filters('upme_profile_label_' . $meta, __('Name', 'upme')) . '</span></div>
-                                    <div class="upme-field-value"><span>' . apply_filters('upme_profile_value_' . $meta, $this->get_user_name($id)) . '</span></div>
-                                    </div><div class="upme-clear"></div>';
-                                    } elseif ($meta == 'last_name') {
+                                    if ($meta == 'first_name' || $meta == 'last_name' || $meta == 'sport' || $meta == 'gender' || 
+                                              $meta == 'hometown' || $meta == 'current_school' || $meta == 'class_of' ||
+                                              $meta == 'height' || $meta == 'weight') {
                                         
                                     } else {
 

@@ -536,7 +536,7 @@ select.upme-go-to-page
 .mini_profile .upme-field-name
 {
     margin-top:17px !important;
-    font-size: 20px !important;
+    font-size: 20px;
 }
 
 .in_sidebar
@@ -589,7 +589,8 @@ select.upme-go-to-page
 
 .upme-button-holder
 {
-    float:right !important;
+    /* float:right !important; */
+    clear: both;
 }
 
 /* reCaptcha Fields */

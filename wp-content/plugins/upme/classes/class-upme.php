@@ -1849,16 +1849,16 @@ class UPME {
                     if ($this->get_option('clickable_profile')) {
                         if ($this->get_option('clickable_profile') == 1) {
                             if ('compact' == $view) {
-                                $profile_pic_display .= '<a href="'.$profile_url.'" upme-data-user-id="'.$id.'" '.$new_window_display.'>' . $this->pic($id, 50) . '</a>';
+                                $profile_pic_display .= '<a href="'.$profile_url.'" upme-data-user-id="'.$id.'" '.$new_window_display.'>' . $this->pic($id, 100) . '</a>';
                             } else {
-                                $profile_pic_display .= '<a href="'.$profile_url.'">' . $this->pic($id, 50) . '</a>';
+                                $profile_pic_display .= '<a href="'.$profile_url.'">' . $this->pic($id, 100) . '</a>';
                             }
                         }else{
-                            $profile_pic_display .= '<a href="' . get_author_posts_url($id) . '" '.$new_window_display_pic.'>' . $this->pic($id, 50) . '</a>';
+                            $profile_pic_display .= '<a href="' . get_author_posts_url($id) . '" '.$new_window_display_pic.'>' . $this->pic($id, 100) . '</a>';
                            
                         }
                     }else{
-                        $profile_pic_display .= $this->pic($id, 50);                           
+                        $profile_pic_display .= $this->pic($id, 100);                           
                     }
 
                     $display .= '<div class="' . $pic_class . '">';
@@ -1991,7 +1991,11 @@ class UPME {
 
                     $display .= '<div class="header_data upme-left"><div class="header_sport">' . get_the_author_meta('sport', $id) . '</div>';
                     $display .= '<div class="header_hometown">' . get_the_author_meta('hometown', $id) . '</div>';
-                    $display .= '<div class="header_school">' . get_the_author_meta('current_school', $id) . " Class of " . get_the_author_meta('class_of', $id) . '</div>';
+                    $display .= '<div class="header_school">' . get_the_author_meta('current_school', $id);
+                    if (get_the_author_meta('class_of', $id)) {
+                        $display .= " Class of " . get_the_author_meta('class_of', $id);
+                    }
+                    $display .= '</div>';
                     $display .= '<div class="header_vitals">' . get_the_author_meta('gender', $id) . 
                                  " " . get_the_author_meta('height', $id) . " " . get_the_author_meta('weight', $id) . '</div></div>';
 
@@ -3021,7 +3025,7 @@ class UPME {
                 if (isset($_POST['upme-register']) && $_POST['display_name'] != '') {
                     $display .= $_POST['display_name'];
                 } else {
-                    $display .= __('Your display name will appear here.', 'upme');
+                    $display .= __('Your name will appear here.', 'upme');
                 }
 
                 $display .= '</div>

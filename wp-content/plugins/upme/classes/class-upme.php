@@ -1861,16 +1861,7 @@ class UPME {
                         $profile_pic_display .= $this->pic($id, 100);                           
                     }
 
-                    $display .= '<div class="' . $pic_class . '">';
-                    /* UPME Filter for customizing profile picture */
-                    $params = array('id'=> $id, 'view' => $view, 'modal' => $modal, 'use_in_sidebar'=>$use_in_sidebar, 'context' => 'normal');
-                    $profile_pic_display = apply_filters('upme_custom_profile_pic',$profile_pic_display,$params);
-                    $display .= $profile_pic_display;
-                    // End Filter
-                    $display .= '</div>';
-                       
-
-                    // Show custom field as profile title
+                   // Show custom field as profile title
                     $current_options = get_option('upme_options');
                     $profile_title_field = $current_options['profile_title_field'];
 
@@ -1989,15 +1980,42 @@ class UPME {
 
                     $display .= '</div>';
 
-                    $display .= '<div class="header_data upme-left"><div class="header_sport">' . get_the_author_meta('sport', $id) . '</div>';
-                    $display .= '<div class="header_hometown">' . get_the_author_meta('hometown', $id) . '</div>';
-                    $display .= '<div class="header_school">' . get_the_author_meta('current_school', $id);
-                    if (get_the_author_meta('class_of', $id)) {
-                        $display .= " Class of " . get_the_author_meta('class_of', $id);
+                    $display .= '<div class="' . $pic_class . '">';
+                    /* UPME Filter for customizing profile picture */
+                    $params = array('id'=> $id, 'view' => $view, 'modal' => $modal, 'use_in_sidebar'=>$use_in_sidebar, 'context' => 'normal');
+                    $profile_pic_display = apply_filters('upme_custom_profile_pic',$profile_pic_display,$params);
+                    $display .= $profile_pic_display;
+                    // End Filter
+                    $display .= '</div>';
+                       
+
+                    $display .= '<div class="header_data upme-left">';
+                    $display .= get_the_author_meta('current_school', $id) . '<br>';
+                    $display .= get_the_author_meta('hometown', $id) . '<br>';
+                    if (get_the_author_meta('gender', $id)) {
+                        $display .= 'Gender: ' . get_the_author_meta('gender', $id) . '<br>';
+                    }
+                    $height = get_the_author_meta('height', $id);
+                    $weight = get_the_author_meta('weight', $id);
+                    if ($height) {
+                        $display .= 'Height: ' . $height;
+                    }
+                    if ($weight) {
+                        $display .= " Weight: " . $weight;
+                    }
+                    if ($height || $weight) {
+                        $display .= '<br>';
+                    }
+                    if (get_the_author_meta('sat_scores', $id)) {
+                        $display .= "SAT: " . get_the_author_meta('sat_scores', $id);
+                    }
+                    if (get_the_author_meta('act_scores', $id)) {
+                        $display .= " ACT: " . get_the_author_meta('act_scores', $id);
+                    }
+                    if (get_the_author_meta('gpa', $id)) {
+                        $display .= " GPA: " . get_the_author_meta('gpa', $id);
                     }
                     $display .= '</div>';
-                    $display .= '<div class="header_vitals">' . get_the_author_meta('gender', $id) . 
-                                 " " . get_the_author_meta('height', $id) . " " . get_the_author_meta('weight', $id) . '</div></div>';
 
                     if (($width == '2' || $width == '3') && ($view != 'compact')) {
                         $display .= '<div class="upme-clear"></div>';
@@ -4293,7 +4311,7 @@ class UPME {
         $profile_title_display = '';
 
         if ('combined_fname_lname' == $profile_title_field) {
-            $profile_title_display = trim(get_the_author_meta('first_name', $id) . "<br/>" . get_the_author_meta('last_name', $id));
+            $profile_title_display = trim(get_the_author_meta('first_name', $id) . " " . get_the_author_meta('last_name', $id));
         } else if ('combined_lname_fname' == $profile_title_field) {
             $last_name = get_the_author_meta('last_name', $id);
             $first_name = get_the_author_meta('first_name', $id);
@@ -4310,6 +4328,11 @@ class UPME {
             $profile_title_display = get_the_author_meta('display_name', $id);
         }
 
+        if (get_the_author_meta('class_of', $id)) {
+          $profile_title_display .= "<br>Class '" . substr(get_the_author_meta('class_of', $id), 2);
+        }
+        $profile_title_display .= '<br>' . get_the_author_meta('sport', $id);
+                    
         return $profile_title_display;
     }
 

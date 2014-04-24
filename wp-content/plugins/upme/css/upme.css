@@ -533,12 +533,6 @@ select.upme-go-to-page
     margin-right: 10px !important;
 }
 
-.mini_profile .upme-field-name
-{
-    margin-top:17px !important;
-    font-size: 20px;
-}
-
 .in_sidebar
 {
     margin-top: 18px !important;
@@ -1024,17 +1018,29 @@ html{
 }
 
 .profile-header-left {
-    min-width: 40%;
+    max-width: 60%;
+    min-width: 20%;
+    margin-left: 20px !important;
     width: auto;
 }
 
 .profile-title {
-    font-size: 50px !important;
-    line-height: 50px !important;
+    font-weight: normal;
+    text-align: center;
+    font-size: 30px !important;
+    line-height: 40px !important;
+    margin-right: 30px;
+    padding: 0;
+}
+
+.mini_profile .profile-title {
+    width: 100%
 }
 
 .header_data {
     font-size: 20px;
-    margin-left: 40px !important;
+    margin-left: 30px !important;
+    font-weight: normal;
+    line-height: 25px;
 }
 

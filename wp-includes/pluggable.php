@@ -1293,9 +1293,10 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	if ( empty($plaintext_pass) )
 		return;
 
-	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
+	$message = "Thank you for registering! Please find your username, password and link to start building you profile below:\r\n\r\n";
+	$message .= sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
-	$message .= wp_login_url() . "\r\n";
+	$message .= "http://www.goalcollegeathlete.com/login\r\n";
 
 	wp_mail($user->user_email, sprintf(__('[%s] Your username and password'), $blogname), $message);
 

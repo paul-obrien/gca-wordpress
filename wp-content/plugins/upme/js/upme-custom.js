@@ -91,8 +91,11 @@ jQuery(document).ready(function($) {
     });
 	
     /* Change display name as User type in */
-    jQuery('.upme-registration').find('#reg_user_login').bind('change keydown keyup',function(){
-        jQuery('.upme-registration .upme-name .upme-field-name').html( jQuery('#reg_user_login').val() );
+    jQuery('.upme-registration').find('#first_name').bind('change keydown keyup',function(){
+        jQuery('.upme-registration .upme-name .upme-field-name').html( jQuery('#first_name').val() + " " + jQuery('#last_name').val() );
+    });
+    jQuery('.upme-registration').find('#last_name').bind('change keydown keyup',function(){
+        jQuery('.upme-registration .upme-name .upme-field-name').html( jQuery('#first_name').val() + " " + jQuery('#last_name').val());
     });
 
 

@@ -66,6 +66,13 @@ jQuery(document).ready(function($) {
         
     });
 
+   /* Toggle edit inline */
+    $('.upme-field-edit a.upme-fire-messages').click(function(e){
+        e.preventDefault();
+        toggle_edit_inline($(this));
+        
+    });
+
     // Check URL paremeter to trigger edit view, when profile is displayed using modal popup link
     var url = window.location.href;
     if(url.indexOf('upme_modal_target_link=yes') != -1){
@@ -481,34 +488,48 @@ function toggle_edit_inline(obj){
         jQuery('.upme-success').remove();
 
         this_form = obj.parent().parent().parent().parent().parent();
-        if (jQuery(this_form).find('.upme-edit').is(':hidden')) {
+
+        var currently_open = '.upme-view';
+        if (!jQuery(this_form).find('.upme-edit').is(':hidden'))
+            currently_open = '.upme-edit';
+        else if (!jQuery(this_form).find('.upme-messages').is(':hidden'))
+            currently_open = '.upme-messages';
+
+        if (obj.hasClass('upme-fire-messages')) {
+            if (jQuery(this_form).find('.upme-view').length > 0) {                
+                // Hide post container
+                jQuery(this_form).find('.upme-post-head').hide();
+            }
+            jQuery(this_form).find(currently_open).slideUp(function() {
+                jQuery(this_form).find('.upme-messages').show();
+                jQuery(this_form).find('.upme-message-field').slideDown();           
+            });
+        }
+        else if (obj.html() == UPMECustom.EditProfile) {
             
             if (jQuery(this_form).find('.upme-view').length > 0) {
                 
                 // Hide post container
                 jQuery(this_form).find('.upme-post-head').hide();
 
-                jQuery(this_form).find('.upme-view').slideUp(function() {
-
-                    jQuery(this_form).find('.upme-edit').slideDown();
-                    jQuery(this_form).find('.upme-field-edit a.upme-fire-editor').html(UPMECustom.ViewProfile);
-        
-                });
             } else {
                 
                 jQuery(this_form).find('.upme-main').show();
-                jQuery(this_form).find('.upme-edit').slideDown();
-                jQuery(this_form).find('.upme-field-edit a.upme-fire-editor').html(UPMECustom.ViewProfile);
             
                 // Show post container
                 jQuery(this_form).find('.upme-post-head').show();
             }
+            jQuery(this_form).find(currently_open).slideUp(function() {
+                jQuery(this_form).find('.upme-edit').slideDown();
+                jQuery(this_form).find('.upme-field-edit a.upme-fire-editor').html(UPMECustom.ViewProfile);
+            });
+
         } else {
 
             // Show post container
             jQuery(this_form).find('.upme-post-head').show();
             
-            jQuery(this_form).find('.upme-edit').slideUp(function() {
+            jQuery(this_form).find(currently_open).slideUp(function() {
                 if (jQuery(this_form).find('.upme-main').hasClass('upme-main-compact')) {
                     jQuery(this_form).find('.upme-main').hide();
                 }

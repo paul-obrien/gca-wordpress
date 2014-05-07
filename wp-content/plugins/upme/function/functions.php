@@ -737,5 +737,33 @@ if (!function_exists('upme_youtube_short_url_customizer')) {
     }
 }
 
+if (!function_exists('is_slug_unique')) {
+
+    function is_slug_unique($slug, $user_id, $college='') {
+        $slug_unique = true; 
+        $users = get_users(array('meta_key' => 'slug', 'meta_value' => $slug));                    
+
+        # Check main slugs
+        if ($users) {
+            foreach ($users as $user) {
+                if (($user->id && ($user->id != $user_id)) || $college) {
+                    $slug_unique = false;
+                }
+            }
+        }
+
+        #Check college slugs
+        global $wpdb;
+        $rows = $wpdb->get_results( "SELECT college, user_id FROM gca_college_messages WHERE slug = '" . $slug . "'");
+        foreach ($rows as $row) {
+            if ($row->user_id != $user_id || $row->college != $college)
+                $slug_unique = false;
+        }
+
+        return $slug_unique;
+
+    }
+}
+
 
 

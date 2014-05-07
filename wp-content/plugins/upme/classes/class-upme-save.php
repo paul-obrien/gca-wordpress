@@ -119,6 +119,14 @@ class UPME_Save {
         }
     }
 
+    function urlize_meta($meta, $userid) {
+        return $this->urlize_string(get_the_author_meta($meta, $userid));
+    }
+
+    function urlize_string($str) {
+        return strtolower(preg_replace("/ +/", '-', preg_replace("/[^A-Za-z0-9 ]/", '', preg_replace("/&.*;/", '', $str))));
+    }
+
     /* Update user meta */
 
     function update() {
@@ -189,6 +197,62 @@ class UPME_Save {
                 }
             }
         }
+
+        // Set the user's public URL
+        $sport = $this->urlize_meta('sport', $this->userid);
+        $first_name = $this->urlize_meta('first_name', $this->userid);
+        $last_name = $this->urlize_meta('last_name', $this->userid);
+        $position = $this->urlize_meta('position', $this->userid);
+        $team = $this->urlize_meta('Team', $this->userid);
+        $public_url = $sport . '-recruiting/' . $first_name . '-' . $last_name . '-' . $position . '-' . $team;
+        $base_url = $public_url;
+        $count = 1;
+        while(!is_slug_unique($public_url, $this->userid)) {
+          $public_url = $base_url . '-' . $count;
+          $count = $count + 1;
+        }
+        update_user_meta($this->userid, 'slug', $public_url);
+    }
+
+    function update_message() {
+        global $wpdb;
+        $errors = false;
+
+        $college = $_POST['college'];
+        if ($college == 'new')
+            $college_name = $_POST['college_name'];
+        else
+            $college_name = $college;
+
+        if (!$college_name) {
+            $this->errors['college_name'] = __('College name is required.', 'upme');
+            $errors = true;
+        }
+
+        $message = $_POST['message'];
+        if (!$message) {
+            $this->errors['message'] = __('Message is required', 'upme');
+            $errors = true;
+        }
+
+        $slug = $this->urlize_string($college_name);
+
+        $statement = "CREATE TABLE IF NOT EXISTS gca_college_messages 
+                      ( user_id bigint(20) unsigned, college varchar(100), 
+                        slug varchar(255), message longtext, primary key (slug), 
+                        index user_id_cm (user_id))";
+        $wpdb->query($statement);
+
+        if (!$errors) {
+            if ($college == 'new')
+                $statement = "INSERT INTO gca_college_messages (user_id, college, slug, message)
+                              values (" . $this->userid . ", '" . $college_name . "', '" . $slug . "', '" . $message . "')";
+            else
+                $statement = "UPDATE gca_college_messages SET slug = '" . $slug . "', message = '" . $message . 
+                             "' WHERE user_id = " . $this->userid . " AND college = '" . $college_name . "'";
+
+            $wpdb->query($statement);
+        }
     }
 
     /* Get errors display */
@@ -253,6 +317,9 @@ class UPME_Save {
 
                 // User ID
                 $this->userid = str_replace('upme-crop-save-', '', $k);
+            } else if (strstr($k, 'upme-messages-')) {
+                 $this->userid = str_replace('upme-messages-', '', $k);
+                 $this->update_message();
             }
         }
     }

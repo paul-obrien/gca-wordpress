@@ -39,8 +39,8 @@ div.upme-wrap .upme-head img.avatar-50 {
 }
 
 div.upme-wrap .upme-head img.avatar-100 {
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
 }
 
 div.upme-head {
@@ -216,6 +216,10 @@ div.upme-field-name a {
     width: 66%;
 }
 
+.upme-field-value a{
+    color: #0d3ea1 !important;
+}
+
 .upme-field-type span, .upme-field-value span {
     float: left;
     line-height: 26px;
@@ -325,6 +329,10 @@ textarea.upme-input {
 }
 
 .upme-edit {
+    display: none;
+}
+
+.upme-messages {
     display: none;
 }
 
@@ -1043,4 +1051,13 @@ html{
     font-weight: normal;
     line-height: 25px;
 }
+
+#edit-profile-message {
+    height: 30px;
+}
+
+.pre-profile-props {
+    margin-bottom: 20px;
+}
+
 

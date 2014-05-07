@@ -213,6 +213,90 @@ jQuery(document).ready(function() {
         }
     });   
 
+    // Validate college message
+    jQuery('.upme-edit-messages-form').submit(function(e){
+        var messages_form = jQuery(this);
+        
+        jQuery(this).removeClass('error');
+         if(jQuery(messages_form).data('success') == 'true')
+        {
+            
+        }
+        else
+        {
+           var user_id = jQuery(messages_form).find('#upme-edit-usr-id').val();
+
+            e.preventDefault();
+            var err = false;
+            var err_msg = '';
+            var slug_reg = /^([a-zA-Z0-9_-])+$/;
+
+            jQuery(messages_form).find('.required').each(function(){
+                
+                if(jQuery(this).val() == '')
+                     {
+                        err = true;
+                        err_msg+='<span class="upme-error upme-error-block"><i class="upme-icon-remove"></i>'+ jQuery(this).attr('title') +' is required.</span>';
+                        jQuery(this).addClass('error');
+                    }
+                    else if(jQuery(this).hasClass('error'))
+                    {
+                        jQuery(this).removeClass('error');
+                    }
+                
+            });
+
+            if(jQuery("#college-choice").val() == "new" && !jQuery("#college-name").val()) {
+                err = true;
+                err_msg += '<span class="upme-error upme-error-block"><i class="upme-icon-remove"></i>You must enter the college name.</span>'
+                jQuery("#college-name").addClass('error');
+            }
+            else
+            {
+                if(jQuery('#college-name').hasClass('error'))
+                    jQuery('#college-name').removeClass('error');
+            }
+
+            var slug_field_id = '#slug-'+ user_id;
+                        
+            if(!jQuery(slug_field_id).hasClass('error') && jQuery(slug_field_id).length > 0 )
+            {
+                if(jQuery(slug_field_id).val().trim() && !slug_reg.test(jQuery(slug_field_id).val()))
+                {
+                    err = true;
+                    
+                    err_msg+='<span class="upme-error upme-error-block"><i class="upme-icon-remove"></i>'+ err_messages['invalid-slug']+'</span>';
+                    jQuery(slug_field_id).addClass('error');
+                }
+                else
+                {
+                    if(jQuery(slug_field_id).hasClass('error'))
+                        jQuery(slug_field_id).removeClass('error');
+                }
+            }
+
+            if(err == true && err_msg!='') {
+  
+                jQuery(messages_form).prev('#upme-message-form-err-holder').css('display','block');
+                jQuery(messages_form).prev('#upme-message-form-err-holder').html(err_msg);
+
+                // Redirect to top of the registration page to view errors without scrolling
+                var registrationCordinates = jQuery(messages_form).position();
+                jQuery("html, body").animate({
+                    scrollTop: registrationCordinates.top
+                }, 2000);
+
+                return false;
+                                
+            }
+            else {
+                jQuery(messages_form).data('success','true');
+                jQuery(messages_form).submit();
+            }
+        }
+    });
+
+
     // Validate profile edit form
     jQuery('.upme-edit-profile-form').submit(function(e){
 

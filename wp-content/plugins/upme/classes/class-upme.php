@@ -569,7 +569,7 @@ class UPME {
         $current_option = get_option('upme_options');
 
         $slug= get_the_author_meta('slug', $id);
-        if ($slug.trim() == '') return;
+        if (trim($slug) == '') return;
         if (isset($current_option['profile_page_id']))
             $link = get_permalink($current_option['profile_page_id']);
         else
@@ -593,7 +593,7 @@ class UPME {
                 if ('DEFAULT' == $permalink_structure) {
                     return add_query_arg(array('username' => $username), $link);
                 } else {
-                    $username = str_replace('@', '-at-', $username);
+                    #$username = str_replace('@', '-at-', $username);
                     return $link . $slug;
                 }
             } else {
@@ -703,7 +703,6 @@ class UPME {
 
         global $post, $wp_query;
 
-
         // Loading CSS and Script only when required
         /* Tipsy script */
         if (!wp_script_is('upme_tipsy')) {
@@ -804,12 +803,12 @@ class UPME {
                 $this->author_filtering_status = true; 
                 $id = $post->post_author;
             } else if($id == 'author' && isset($curauth->ID)) {
-               $this->author_filtering_status = true; 
+                $this->author_filtering_status = true; 
                 $id = $curauth->ID;
             } elseif ($this->user_exists($id)) {
                 $id = $id;
             } elseif (isset($_REQUEST['viewuser']) && $this->user_exists($_REQUEST['viewuser']) &&  !$use_in_sidebar) {
-                $id = $_REQUEST['viewuser'];
+               $id = $_REQUEST['viewuser'];
             } elseif (isset($_REQUEST['username']) && !$use_in_sidebar) {
                 // View profiles by username in default permalinks
                 
@@ -824,9 +823,20 @@ class UPME {
                 $upme_profile_filter_value = $wp_query->query_vars['upme_profile_filter'];
                 $upme_profile_filter_value = str_replace('-at-', '@', urldecode($upme_profile_filter_value));
 
+                $url_parts = explode("/", $upme_profile_filter_value);
+                $slug = $url_parts[0];
+                if (sizeof($url_parts) > 1) 
+                    $slug .= "/" . $url_parts[1];
+                if (sizeof($url_parts) > 2) {
+                    $matches = array();
+                    preg_match('/for-(.*)-coaching-staff/', $url_parts[2], $matches);
+                    if (sizeof($matches) > 0)
+                        $message_slug = $matches[1];
+                }
+
                 if (isset($current_option['profile_url_type']) && 2 == $current_option['profile_url_type']) {
 
-                    $userdata = get_users(array('meta_key' => 'slug', 'meta_value' => $upme_profile_filter_value));
+                    $userdata = get_users(array('meta_key' => 'slug', 'meta_value' => $slug));
                     if ($userdata && $userdata[0]) {
                         $userdata = $userdata[0];
                     }
@@ -869,7 +879,7 @@ class UPME {
             } elseif (is_numeric($id) && !(get_user_by('id', $id))) {
                 return $this->upme_invalid_user_profile();
             } else {                
-                return $this->view_profile($id, $width, $view, $group, $show_stats, $show_social_bar, $use_in_sidebar, $users_per_page, null, $role, $recent_posts,$logout_redirect,$new_window,$modal,$modal_view);
+                return $this->view_profile($id, $width, $view, $group, $show_stats, $show_social_bar, $use_in_sidebar, $users_per_page, null, $role, $recent_posts,$logout_redirect,$new_window,$modal,$modal_view,$message_slug);
             }
         }
 
@@ -1705,7 +1715,7 @@ class UPME {
 
     /* View profile area */
 
-    function view_profile($id=null, $width=null, $view=null, $group=null, $show_stats=null, $show_social_bar=null, $use_in_sidebar=null, $users_per_page=null, $hide_until_search=null, $role=null, $recent_posts=null,$logout_redirect=null,$new_window=null,$modal=null,$modal_view=null) {
+    function view_profile($id=null, $width=null, $view=null, $group=null, $show_stats=null, $show_social_bar=null, $use_in_sidebar=null, $users_per_page=null, $hide_until_search=null, $role=null, $recent_posts=null,$logout_redirect=null,$new_window=null,$modal=null,$modal_view=null,$message_slug=null) {
 
         global $upme_save;
 
@@ -1893,10 +1903,6 @@ class UPME {
 
                         $display .= '</div>';
 
-                        #if ($profile_url) {
-                        #    $display .= '<div class="public_profile_url">Public Profile URL: ' . $profile_url .'</div>';
-                        #}
-
                         if ($use_in_sidebar == 'yes' || $use_in_sidebar) {
                             $link = get_permalink($this->get_option('profile_page_id'));
                             $class = "upme-button-alt";
@@ -1938,7 +1944,9 @@ class UPME {
 
                         }else{   
                             
-                            $edit_buttons = '<a  href="' . $link . '" class="' . $class . '">' . $link_text . '</a>&nbsp;' . do_shortcode('[upme_logout wrap_div="false" user_id="' . $id . '"  '.$logout_url.']');
+                            $edit_buttons = '<a href="' . $link . '" class="' . $class . '">' . $link_text . '</a>&nbsp;';
+                            $edit_buttons .= '<a href="#messages" class="upme-button-alt upme-fire-messages">College Messages</a>&nbsp;';
+                            $edit_buttons .= do_shortcode('[upme_logout wrap_div="false" user_id="' . $id . '"  '.$logout_url.']');
                             $params['type'] = $view;
 
                             $display .= '<div class="upme-field-edit">';
@@ -1991,14 +1999,51 @@ class UPME {
 
                     $display .= '<div class="header_data upme-left">';
                     $display .= get_the_author_meta('current_school', $id) . '<br>';
-                    $display .= get_the_author_meta('hometown', $id) . '<br>';
-                    if (get_the_author_meta('gender', $id)) {
-                        $display .= 'Gender: ' . get_the_author_meta('gender', $id) . '<br>';
+                    $hometown = get_the_author_meta('hometown', $id);
+                    $state = get_the_author_meta('state', $id);
+                    $country = get_the_author_meta('country', $id);
+                    $first_field = true;
+                    if ($hometown) {
+                        $display .= $hometown;
+                        $first_field = false;
+                    }
+                    if ($state) {
+                        if (!$first_field) {
+                          $display .= ", ";
+                        }
+                        $display .= $state;
+                        $first_field = false;
+                    }
+                    if ($country && $country != 'United States') {
+                        if (!$first_field) {
+                          $display .= ", ";
+                        }
+                        $display .= $country;
+                    }
+                    if ($hometown || $state || $country) {
+                        $display .= '<br>';
+                    }
+                    $gender = get_the_author_meta('gender', $id);
+                    $date_of_birth = get_the_author_meta('date_of_birth', $id);
+                    if ($gender) {
+                        $display .= 'Gender: ' . $gender;
+                    }
+                    if ($gender && $date_of_birth) {
+                        $display .= "&nbsp;&nbsp;";
+                    }
+                    if ($date_of_birth) {
+                        $display .= 'Date of Birth: ' . $date_of_birth;
+                    }
+                    if ($gender || $date_of_birth) {
+                        $display .= '<br>';
                     }
                     $height = get_the_author_meta('height', $id);
                     $weight = get_the_author_meta('weight', $id);
                     if ($height) {
                         $display .= 'Height: ' . $height;
+                    }
+                    if ($height && $weight) {
+                        $display .= "&nbsp;&nbsp;";
                     }
                     if ($weight) {
                         $display .= " Weight: " . $weight;
@@ -2048,13 +2093,19 @@ class UPME {
                     $display .= '<div class="upme-main upme-main-' . $view . '">';
 
                     /* Display errors */
-                    if (isset($_POST['upme-submit-' . $id])) {
+                    if (isset($_POST['upme-submit-' . $id]) || isset($_POST['upme-messages-' . $id])) {
                         $display .= $upme_save->get_errors($id);
                     }
 
+                    if ($message_slug)
+                        $display .= '<div class="pre-profile-props upme-view">' . $this->college_message($id, $message_slug) . '</div>';
+                    else if ($this->can_edit_profile($this->logged_in_user, $id)) {
+                        $display .= '<div class="pre-profile-props upme-view">Public Profile URL: http://goalcollegeathlete.com/profile/' . 
+                                    get_the_author_meta('slug', $id) . '</div>'; 
+                    }
                     $display .= $this->show_profile_fields($id, $view);
                     $display .= $this->edit_profile_fields($id, $width, $sidebar_class);
-
+                    $display .= $this->edit_college_messages($id, $width, $sidebar_class);
                     $display .= '</div>';
 
                     if ('1' == $current_options['show_recent_user_posts'] && 'no' != $recent_posts && !($view)) {
@@ -2195,6 +2246,82 @@ class UPME {
         }
     }
 
+    function college_message($userid, $message_slug) {
+       global $wpdb;
+       $rows = $wpdb->get_results( "SELECT message FROM gca_college_messages WHERE user_id = " . $userid . " AND slug = '" . $message_slug . "'");
+       return $rows[0]->message;
+    }
+
+    function edit_college_messages($id, $width=null, $sidebar_class=null) {
+      global $wpdb;
+      
+      $base_slug = get_the_author_meta('slug', $id);
+
+      $display = '<div class="upme-messages">';
+      /* Show the label */
+      $display .= '<div id="upme-message-form-err-holder" style="display: none;" class="upme-errors"></div>';
+      $display .= '<form id="upme-edit-messages-form" class="upme-edit-messages-form" action method="post" enctype="multipart/form-data">';
+      $display .= '<div class="upme-field upme-message-field">';
+      $display .= '<div class="upme-field-type" for="college-' . $id . '">';
+      $display .= '<span>College</span></div>'; 
+      $display .= '<div class="upme-field-value">';
+      $display .= '<select class="upme-input" id="college-choice" name="college"><option value="new">Create a New Message</option></select>';
+      $display .= '</div></div>';
+      $display .= '<div class="upme-field upme-message-field" id="type-in-college-field">';
+      $display .= '<div class="upme-field-type" for="college-name-' . $id . '">';
+      $display .= '<span>Type in College Name:</span></div>'; 
+      $display .= '<div class="upme-field-value">';
+      $display .= '<input class="upme-input" id="college-name" name="college_name"/>';
+      $display .= '</div></div>';
+      $display .= '<div class="upme-field" id="message-public-url">';
+      $display .= '<div class="upme-field-type" for="college-url-' . $id . '">';
+      $display .= '<span>Public URL:</span></div>'; 
+      $display .= '<div id="college-public-url" class="upme-field-value"></div></div>';
+      $display .= '<div class="upme-field upme-message-field">';
+      $display .= '<div class="upme-field-type" for="message-' . $id . '">';
+      $display .= '<span>Message:</span></div>'; 
+      $display .= '<div class="upme-field-value">';
+      $display .= '<textarea title="Message" id="college-message" class="upme-input required" name="message" rows=4 cols=80></textarea>';
+      $display .= '</div></div>';
+      $display .= '<div class="upme-field upme-message-field">';
+      $display .= '<div class="upme-field-type">&nbsp;</div>'; 
+      $display .= '<div class="upme-field-value">';
+      $display .= '<input type="hidden" id="upme-edit-usr-id" value="' . $id . '" />';
+      $display .= '<input type="submit" id="message-submit" name="upme-messages-' . $id . '" class="upme-button" value="Add Message"/>';
+      $display .= '</div></div>';
+      $display .= "</form></div>";
+
+      $display .= "<script language='javascript'>\njQuery(document).ready(function() {\nvar colleges = {};\njQuery('#message-public-url').hide();\n";
+      $display .= "var base_slug = 'http://goalcollegeathlete.com/" . $base_slug . "'\n";
+      $rows = $wpdb->get_results( "SELECT college, slug, message FROM gca_college_messages WHERE user_id = " . $id . " ORDER BY college");
+      foreach ($rows as $row) {
+         $college_name = str_replace("'", "\'", $row->college);
+         $display .= "colleges['" . $college_name . "'] =  {'message' : '" . str_replace("'", "\'", $row->message) . "', 'slug' : '" .
+                     $row->slug . "'};\n";
+         $display .= "jQuery('#college-choice').append(jQuery('<option></option>').attr('value','" . $college_name . "').text('" . $college_name . "'));\n";  
+      }
+      $display .= "jQuery('#college-choice').change(function() {
+        var college = jQuery('#college-choice').val();
+        if (college == 'new') {
+            jQuery('#type-in-college-field').show();
+            jQuery('#message-submit').val('Add Message');
+            jQuery('#college-message').val('');
+            jQuery('#message-public-url').hide();
+        }
+        else {
+            jQuery('#type-in-college-field').hide();
+            jQuery('#message-submit').val('Update Message');
+            jQuery('#college-message').val(colleges[college]['message']);
+            jQuery('#message-public-url').show();
+            jQuery('#college-public-url').html(base_slug + '/for-' + colleges[college]['slug'] + '-coaching-staff');
+        }
+      });
+      });
+      </script>";
+      return $display;
+    }
+
+
     /* Edit profile fields */
 
     function edit_profile_fields($id, $width=null, $sidebar_class=null) {
@@ -2221,6 +2348,9 @@ class UPME {
                 $display .= '<form id="upme-edit-profile-form" class="upme-edit-profile-form" action="" method="post" enctype="multipart/form-data">';
             }
             
+            $display .= '<div id="edit-profile-message" class="upme-edit">Any field you don’t put information into won’t show up in your Public Profile</div>';
+            $display .= '<div id="edit-profile-message" class="upme-edit">Remember to always click Update Profile to save changes.';
+            $display .= '&nbsp;&nbsp;<input type="submit" name="upme-submit-' . $id . '" class="upme-button upme-edit" value="' . __('Update Profile', 'upme') . '" /></div>';
             $array = get_option('upme_profile_fields');
             //echo "<pre>";print_r($array);exit;
 
@@ -2389,12 +2519,12 @@ class UPME {
                                     }
 
                                     $display .= '<select title="' . $name . '" ' . $disabled . ' class="upme-input ' . $required_class . '" name="' . $meta . '-' . $id . '" id="' . $meta . '-' . $id . '">';
-                                    $display .= '<option value="" ' . selected($profile_user_meta, "", 0) . '>' . __('Please Select', 'upme') . '</option>';
+                                    $display .= '<option value="" ' . esc_attr(selected($profile_user_meta, "", 0)) . '>' . __('Please Select', 'upme') . '</option>';
                                     foreach ($loop as $option) {
                                         // Added as per http://codecanyon.net/item/user-profiles-made-easy-wordpress-plugin/discussion/4109874?filter=All+Discussion&page=27#comment_4352415
                                         $option = trim($option);
 
-                                        $display .= '<option value="' . $option . '" ' . selected($profile_user_meta, $option, 0) . '>' . $option . '</option>';
+                                        $display .= '<option value="' . esc_attr($option) . '" ' . selected($profile_user_meta, esc_attr($option), 0) . '>' . $option . '</option>';
                                     }
                                     $display .= '</select>';
                                 }
@@ -2709,7 +2839,7 @@ class UPME {
 
             /* Displaying labels for fields which are not empty */
             if ($type == 'usermeta' && get_the_author_meta($meta, $id) != '' && $deleted == 0) {
-                if ($social == 0 || ( $social == 1 && $meta == 'user_email' ) || !isset($profile_fields[$key]['social'])) {
+                if ($social == 0 || ( $social == 1 && $meta == 'user_email' ) || (!isset($profile_fields[$key]['social']) || $meta == 'twitter')) {
 
                     /* Do not show private fields */
                     if ($private == 0 || ($private == 1 && current_user_can('manage_options') )) {
@@ -2726,9 +2856,8 @@ class UPME {
 
 
 
-                                    if ($meta == 'first_name' || $meta == 'last_name' || $meta == 'sport' || $meta == 'gender' || 
-                                              $meta == 'hometown' || $meta == 'current_school' || $meta == 'class_of' ||
-                                              $meta == 'height' || $meta == 'weight') {
+                                    if (in_array($meta, array('first_name', 'last_name', 'sport', 'gender', 'hometown', 'class_of',
+                                                              'height', 'weight', '', 'state', 'country', 'date_of_birth'))) {
                                         
                                     } else {
 
@@ -2791,7 +2920,13 @@ class UPME {
 
 
                                             if (isset($profile_fields[$key]['allow_html']) && $allow_html == 1) {
-                                                $display .= str_replace("\r\n", "<br />", html_entity_decode(get_the_author_meta($meta, $id)));
+                                                if ($meta == "press_media" || $meta == "game_schedule") {
+                                                    $content = preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', get_the_author_meta($meta, $id));
+                                                }
+                                                else {
+                                                    $content = get_the_author_meta($meta, $id);
+                                                }
+                                                $display .= str_replace("\r\n", "<br />", $content);
                                             } else {
                                                 $display .= '<span>';
 
@@ -3673,6 +3808,7 @@ class UPME {
 
 
         $display.=$upme_captcha_loader->load_captcha($this->captcha);
+        //$display .= sc_render_login_form_social_connect();
 
         $display .= '<div class="upme-field upme-edit upme-edit-show">
         <label class="upme-field-type upme-field-type-' . $sidebar_class . '">&nbsp;</label>
@@ -3959,8 +4095,10 @@ class UPME {
         if (isset($current_option['profile_page_id']) && !isset($_REQUEST['page_id'])) {
             $link = get_permalink($current_option['profile_page_id']);
             $filter_link = rtrim(substr(str_replace(home_url(), '', $link), 1), '/') . '/';
-            $filter_link_with_slash = '^' . $filter_link . '([^/]+)/?';
-            $filter_link_empty_slash = '^' . $filter_link . '([^/]+)?';
+            #$filter_link_with_slash = '^' . $filter_link . '([^/]+)/?';
+            #$filter_link_empty_slash = '^' . $filter_link . '([^/]+)?';
+            $filter_link_with_slash = '^' . $filter_link . '(.*)/?';
+            $filter_link_empty_slash = '^' . $filter_link . '(.*)?';
             $profile_page_id = url_to_postid($link);
 
             add_rewrite_rule($filter_link_empty_slash, 'index.php?page_id=' . $profile_page_id . '&upme_profile_filter=$matches[1]', 'top');

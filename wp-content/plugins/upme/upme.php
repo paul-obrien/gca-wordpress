@@ -90,12 +90,13 @@ add_action('wp_footer', 'upme_custom_scripts');
 
 function upme_custom_scripts() {
 
-    wp_register_script('upme_custom', upme_url . 'js/upme-custom.js', array('jquery'));
+    wp_register_script('upme_custom', upme_url . 'js/upme-custom.js', array('jquery'), 1);
     wp_enqueue_script('upme_custom');
 
     $custom_js_strings = array(
         'ViewProfile' => __('View Profile', 'upme'),
         'EditProfile' => __('Edit Profile', 'upme'),
+        'CollegeMessages' => __('College Messages', 'upme'),
         'UPMEUrl' => upme_url,
         'ForgotPass' => __('Forgot Password', 'upme'),
         'Login' => __('Login', 'upme'),

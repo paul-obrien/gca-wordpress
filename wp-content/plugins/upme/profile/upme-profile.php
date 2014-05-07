@@ -353,16 +353,7 @@ function upme_validate_edit_profile_slug() {
     
     $current_user_id = isset($_POST['user_id']) ? $_POST['user_id'] : 0;
 
-    $users = get_users(array('meta_key' => 'slug', 'meta_value' => $user_slug));                    
-
-    $slug_exists = false;
-    if ($users) {
-        foreach ($users as $user) {
-            if ($user->id && ($user->id != $current_user_id)) {
-                $slug_exists = true;
-            }
-        }
-    }
+    $slug_unique = is_slug_unique($user_slug, $current_user_id);
 
     if (!empty($user_slug)) {
 
@@ -370,7 +361,7 @@ function upme_validate_edit_profile_slug() {
 
         //if (is_email($user_email)) {
             // Check the existence of user email from database
-            if ($slug_exists) {
+            if (!$slug_unique) {
                 echo json_encode(array("status" => TRUE, "msg" => "RegExistSlug"));
             } else {
                 echo json_encode(array("status" => FALSE, "msg" => "RegValidSlug"));

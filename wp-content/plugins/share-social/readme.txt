@@ -1,6 +1,6 @@
 === Cunjo: The Best Free Social Share Plugin ===
 Contributors: Biro Florin, Josh Foote, Alexis Kenne, Cunjo.com
-Donate link: http://share.cunjo.com/platform/contribute/?donation
+Donate link: http://cunjo.com/platform/contribute/?donation
 Tags: !Share, social, sharing, social share buttons for wordpress, social share buttons for html website, use social share buttons on your blog, social share widget wordpress, social share widget, social share bar, social share links, social share plugin wordpress, social share icons, share widget iphone, share widget ipad, apple share widget, facebook share widget
 Requires at least: 3.4
 Tested up to: 3.7.1
@@ -102,37 +102,37 @@ What you need to do:
 Design social elements like icons, buttons, bars, boxes that can be transformed into functional widgets by Cunjo.
 What you get:
 We will place your name/company name with a link to your website/social profile under contribution listings on our website and in the plugin.
-Link: http://share.cunjo.com/platform/contribute/?design
+Link: http://cunjo.com/platform/contribute/?design
 
 =Build a social widget=
 What you need to do:
 Build a fully functional social media widget. It can be a social bookmarking script, social channel streaming box, an addon for existing Cunjo widgets. Anything regarding to social engagement.
 What you get:
 We will intregate your widget into Cunjo's Widget's Library with the added text "by author name" and link to your website. Also your contribution will be listed with your name and link on Cunjo's contribution pages
-Link: http://share.cunjo.com/platform/contribute/?coding
+Link: http://cunjo.com/platform/contribute/?coding
 
 =Financial Contributions=
 What you need to do:
 We have high costs in servers and staff to maintain Cunjo network up and running and in the same time improve it. You can financially support Cunjo's existence with the amount you feel appropriate.
 What you get:
 You will get your name and link in Credits pages under Sponsors category. Sponsors with donations over $1,500 will also get their logo with link on cunjo.com main page under Partners area.
-Link: http://share.cunjo.com/platform/contribute/?donation
+Link: http://cunjo.com/platform/contribute/?donation
 
 =Tell us your great idea=
 What you need to do:
 You have a great ideea regarding Social Media Engagement? You know how we can make Cunjo services better? Submit any ideea you came up with and we will get to work :)
 What you get:
 You will get your name and link in Credits pages under General contributors.
-Link: http://share.cunjo.com/platform/contribute/?idea
+Link: http://cunjo.com/platform/contribute/?idea
 
 =Submit a Cunjo testimonial=
 What you need to do:
 If you are pleased with Cunjo, please, submit a testimonial so we can let others know how Cunjo services improved our users business & website. You can submit a text testimonial or video testimonial.
 What you get:
 You video or text testimonial will be displayed on cunjo.com main page with a link to your website.
-Link: http://share.cunjo.com/platform/contribute/?testimonial
+Link: http://cunjo.com/platform/contribute/?testimonial
 
-View "You are Cunjo" page here: http://share.cunjo.com/platform/contributions/
+View "You are Cunjo" page here: http://cunjo.com/platform/contributions/
 
 == Screenshots ==
 
@@ -153,6 +153,8 @@ View "You are Cunjo" page here: http://share.cunjo.com/platform/contributions/
 15. Cunjo inline buttons with Counters and neat hover effect.
 
 == Changelog ==
+= 2.2.5 =
+* Cunjo service has been discontinued, removed Cunjo ID from the plugin to enable free usage;
 = 2.2.3 =
 * Fixed a social counter class timeout issue;
 = 2.2.2 =

@@ -218,7 +218,7 @@ jQuery('.bar_top_tb .cunjo_tooltip').poshytip({
         {if $nocredits eq FALSE}
             <li class="space_top_tb"></li>
         {else}
-            <li class="cunjo_credits_top_tb {if isset($tooltip) && $tooltip == 'yes'}cunjo_tooltip{/if}" title="!Share"><a href="http://share.cunjo.com" target="_blank" class="cunjo_more_modal"><span class="iconz-cunjo"></span></a></li>
+            <li class="cunjo_credits_top_tb {if isset($tooltip) && $tooltip == 'yes'}cunjo_tooltip{/if}" title="!Share"><a href="http://cunjo.com" target="_blank" class="cunjo_more_modal"><span class="iconz-cunjo"></span></a></li>
         {/if}
         {if isset($message) && $message != ''}
         <li class="cunjo_messages_holder_top_tb {$message_pos}">

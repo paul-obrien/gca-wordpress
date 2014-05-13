@@ -195,7 +195,7 @@ if (!jQuery("script[src='{$website}layouts/{$layout}/script.js']").length)
                 {if $nocredits eq FALSE}
                     <li class="space_tiny_btns"></li>
                 {else}
-                    <li class="cunjo_credits_tiny_btns {if isset($tooltip) && $tooltip == 'yes'}cunjo_tooltip{/if}" title="!Share"><a href="http://share.cunjo.com" target="_blank" class="cunjo_more_modal"></a></li>
+                    <li class="cunjo_credits_tiny_btns {if isset($tooltip) && $tooltip == 'yes'}cunjo_tooltip{/if}" title="!Share"><a href="http://cunjo.com" target="_blank" class="cunjo_more_modal"></a></li>
                 {/if}
             </ul>
         </li>

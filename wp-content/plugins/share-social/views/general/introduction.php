@@ -52,9 +52,9 @@
                             <a href="<?php echo network_admin_url( 'admin.php?page=cunjo_widget_library') ;?>" class="btn btn-primary btn-icon"><i class="appz-lab"></i> 2. Widgets</a>
                             <a href="<?php echo network_admin_url( 'admin.php?page=cunjo_social_analytics') ;?>" class="btn btn-primary btn-icon"><i class="appz-stats"></i> 3. Social Analytics</a>
                             <?php if(!isset($view_data['wp_options']['cunjoshare_checkU']) || $view_data['wp_options']['cunjoshare_checkU'] == 'Free'): ?>
-                            <a href="http://share.cunjo.com/register/" target="_blank" class="btn btn-warning btn-icon"><i class="appz-fire"></i> 4. Upgrade</a>
+                            <a href="http://cunjo.com/register/" target="_blank" class="btn btn-warning btn-icon"><i class="appz-fire"></i> 4. Upgrade</a>
                             <?php endif; ?>
-                            <a href="http://share.cunjo.com/platform/contributions/" class="btn btn-default btn-icon"><i class="appz-heart"></i> Contribute</a>
+                            <a href="http://cunjo.com/platform/contributions/" class="btn btn-default btn-icon"><i class="appz-heart"></i> Contribute</a>
                             <a href="<?php echo network_admin_url( 'admin.php?page=cunjo_credits') ;?>" class="btn btn-default btn-icon"><i class="appz-info"></i> Credits</a>
                         </div>
                     </div>
@@ -64,4 +64,4 @@
     </div>
     <div class="col-lg-2 col-md-1"></div>
 </div>
-<div style="text-align:center;"><a href="http://share.cunjo.com/platform/contribute/?donation" target="_blank">Like this plugin? Consider helping with a donation.</a></div>
+<div style="text-align:center;"><a href="http://cunjo.com/platform/contribute/?donation" target="_blank">Like this plugin? Consider helping with a donation.</a></div>

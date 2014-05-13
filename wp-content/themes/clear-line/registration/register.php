@@ -20,11 +20,11 @@
 
 			<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
-				<h2><?php _e( 'Create an Athlete Profile', 'buddypress' ) ?></h2>
+				<h2><?php _e( 'Create an Account', 'buddypress' ) ?></h2>
 
 				<?php do_action( 'template_notices' ) ?>
 
-				<p><?php _e( 'Tell coaches about yourself through an online profile.  First, please register for an account', 'buddypress' ) ?></p>
+				<p><?php _e( 'Registering for this site is easy, just fill in the fields below and we\'ll get a new account set up for you in no time.', 'buddypress' ) ?></p>
 
 				<?php do_action( 'bp_before_account_details_fields' ) ?>
 
@@ -32,31 +32,24 @@
 
 					<?php /***** Basic Account Details ******/ ?>
 
-					<!-- <h4><?php _e( 'Account Details', 'buddypress' ) ?></h4> -->
+					<h4><?php _e( 'Account Details', 'buddypress' ) ?></h4>
 
-					<div class="register_field">
-						<label for="signup_username"><?php _e( 'Username', 'buddypress' ) ?> </label>
-						<?php do_action( 'bp_signup_username_errors' ) ?>
-						<input type="text" name="signup_username" id="signup_username" value="<?php bp_signup_username_value() ?>" />
-					</div>
-							
-					<div class="register_field">
-						<label for="signup_email"><?php _e( 'Email Address', 'buddypress' ) ?> </label>
-						<?php do_action( 'bp_signup_email_errors' ) ?>
-						<input type="text" name="signup_email" id="signup_email" value="<?php bp_signup_email_value() ?>" />
-					</div>
+					<label for="signup_username"><?php _e( 'Username', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
+					<?php do_action( 'bp_signup_username_errors' ) ?>
+					<input type="text" name="signup_username" id="signup_username" value="<?php bp_signup_username_value() ?>" />
 
-					<div class="register_field">
-						<label for="signup_password"><?php _e( 'Choose a Password', 'buddypress' ) ?> </label>
-						<?php do_action( 'bp_signup_password_errors' ) ?>
-						<input type="password" name="signup_password" id="signup_password" value="" />
-				    </div>
+					<label for="signup_email"><?php _e( 'Email Address', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
+					<?php do_action( 'bp_signup_email_errors' ) ?>
+					<input type="text" name="signup_email" id="signup_email" value="<?php bp_signup_email_value() ?>" />
 
-					<div class="register_field">
-						<label for="signup_password_confirm"><?php _e( 'Confirm Password', 'buddypress' ) ?> </label>
-						<?php do_action( 'bp_signup_password_confirm_errors' ) ?>
-						<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
-					</div>
+					<label for="signup_password"><?php _e( 'Choose a Password', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
+					<?php do_action( 'bp_signup_password_errors' ) ?>
+					<input type="password" name="signup_password" id="signup_password" value="" />
+
+					<label for="signup_password_confirm"><?php _e( 'Confirm Password', 'buddypress' ) ?> <?php _e( '(required)', 'buddypress' ) ?></label>
+					<?php do_action( 'bp_signup_password_confirm_errors' ) ?>
+					<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
+
 				</div><!-- #basic-details-section -->
 
 				<?php do_action( 'bp_after_account_details_fields' ) ?>
@@ -69,7 +62,7 @@
 
 					<div class="register-section" id="profile-details-section">
 
-						<!-- <h4><?php _e( 'Profile Details', 'buddypress' ) ?></h4> -->
+						<h4><?php _e( 'Profile Details', 'buddypress' ) ?></h4>
 
 						<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 						<?php if ( bp_is_active( 'xprofile' ) ) : if ( bp_has_profile( 'profile_group_id=1' ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>

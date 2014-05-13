@@ -209,7 +209,7 @@ jQuery('.bar_btm_ele_tb .cunjo_tooltip').poshytip({
         {if $nocredits eq FALSE}
             <li class="space_btm_ele_tb"></li>
         {else}
-            <li class="cunjo_credits_btm_ele_tb {if isset($tooltip) && $tooltip == 'yes'}cunjo_tooltip{/if}" title="!Share"><a href="http://share.cunjo.com" target="_blank" class="cunjo_more_modal"><span class="iconz-cunjo"></span></a></li>
+            <li class="cunjo_credits_btm_ele_tb {if isset($tooltip) && $tooltip == 'yes'}cunjo_tooltip{/if}" title="!Share"><a href="http://cunjo.com" target="_blank" class="cunjo_more_modal"><span class="iconz-cunjo"></span></a></li>
         {/if}
         {if isset($socials) && $socials != ''}
         <li class="cunjo_socials_holder_btm_ele_tb cunjo_pos_left">

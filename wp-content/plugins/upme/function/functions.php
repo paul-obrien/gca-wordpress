@@ -765,5 +765,16 @@ if (!function_exists('is_slug_unique')) {
     }
 }
 
+if (!function_exists('urlize_meta')) {
+    function urlize_meta($meta, $userid) {
+        return urlize_string(get_the_author_meta($meta, $userid));
+    }
+}
+
+if (!function_exists('urlize_string')) {
+    function urlize_string($str) {
+        return strtolower(preg_replace("/ +/", '-', preg_replace("/[^A-Za-z0-9 ]/", '', preg_replace("/&.*;/", '', $str))));
+    }
+}
 
 

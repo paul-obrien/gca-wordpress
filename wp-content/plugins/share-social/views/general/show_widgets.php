@@ -18,7 +18,7 @@
                                     <li><a href="<?php echo network_admin_url( 'admin.php?page=cunjo_social_analytics') ;?>"><i class="appz-stats"></i> Social analytics</a></li>
                                     <li class="divider"></li>
                                     <?php if(!isset($view_data['wp_options']['cunjoshare_checkU']) || $view_data['wp_options']['cunjoshare_checkU'] == 'Free'): ?>
-                                    <li class="warning"><a href="http://share.cunjo.com/register/" target="_blank"><i class="appz-fire"></i> Go Premium!</a></li>
+                                    <li class="warning"><a href="http://cunjo.com/register/" target="_blank"><i class="appz-fire"></i> Go Premium!</a></li>
                                     <?php endif; ?>
                                     <li><a href="http://cunjo.com" target="_blank"><i class="appz-curiosity-logo"></i> Cunjo website</a></li>
                                 </ul>
@@ -345,7 +345,7 @@
                             <a href="http://hub.cunjo.com/submitticket.php" data-toggle="tooltip" title="Bug reports & support" target="_blank"><i class="appz-bug"></i></a>
                             <a href="http://hub.cunjo.com/knowledgebase.php" data-toggle="tooltip" title="Knowledgebase" target="_blank"><i class="appz-info"></i></a>
                             <a href="http://hub.cunjo.com/announcements.php" data-toggle="tooltip" title="Announcements" target="_blank"><i class="appz-star"></i></a>
-                            <a href="http://share.cunjo.com/platform/contributions/" data-toggle="tooltip" title="Contributions" target="_blank"><i class="appz-heart"></i></a>
+                            <a href="http://cunjo.com/platform/contributions/" data-toggle="tooltip" title="Contributions" target="_blank"><i class="appz-heart"></i></a>
                         </div>
                     </div>
                 </div>
@@ -354,7 +354,7 @@
     </div>
     <div class="col-md-1"></div>
 </div>
-<div style="text-align:center;"><a href="http://share.cunjo.com/platform/contribute/?donation" target="_blank">Like this plugin? Consider helping with a donation.</a></div>
+<div style="text-align:center;"><a href="http://cunjo.com/platform/contribute/?donation" target="_blank">Like this plugin? Consider helping with a donation.</a></div>
 <input type="hidden" id="cunjo_id" value="<?php echo(isset($view_data['wp_options']['cunjoshare_shareid']))? $view_data['wp_options']['cunjoshare_shareid'] : ''; ?>" />
 <?php
 	//echo "<pre>" . print_r($view_data, TRUE) . "</pre>";

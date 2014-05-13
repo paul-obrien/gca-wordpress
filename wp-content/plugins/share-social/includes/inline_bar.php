@@ -205,14 +205,14 @@ class inline_bar_outputter
         global $post;   
         $anchor = "";
         
-        $share_id = get_site_option('cunjoshare_shareid');
+        /*$share_id = get_site_option('cunjoshare_shareid');
         if(!$share_id OR strlen($share_id) <= 0){
             if(_DEBUG_BAR){
                 echo "No share ID detected!<br />";
             }
         
             return $post_content;
-        }
+        }*/
         
         if(_DEBUG_BAR){
             echo "Outputting $this->layout bar:<br />";
@@ -284,9 +284,11 @@ class inline_bar_outputter
 		 $anchor .= '&lang=' . urlencode($this->view_data['wp_options']['cunjoshare_lang']) . '&tooltip=yes';
 
         // add share id
-        $anchor .= '&shareid=' . urlencode($this->view_data['wp_options']['cunjoshare_shareid']);
-        $anchor .= '" async><a title="Cunjo" href="http://cunjo.com" style="font-size: 0px; text-decoration: none;">Cunjo ID: '.$this->view_data['wp_options']['cunjoshare_shareid'].'</a></script>';
-        
+        //$anchor .= '&shareid=111' . urlencode($this->view_data['wp_options']['cunjoshare_shareid']);
+        $anchor .= '&shareid=111';
+        /*$anchor .= '" async><a title="Cunjo" href="http://cunjo.com" style="font-size: 0px; text-decoration: none;">Cunjo ID: '.$this->view_data['wp_options']['cunjoshare_shareid'].'</a></script>';*/
+        $anchor .= '" async><a title="Cunjo" href="http://cunjo.com" style="font-size: 0px; text-decoration: none;">Cunjo ID: 111</a></script>';
+
         if(isset($widget_settings['visibility_settings']['placement']))
             $anchor .= "</div>";
         

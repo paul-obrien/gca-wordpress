@@ -1,4 +1,4 @@
-<?php
+<?
 ini_set('default_charset', 'utf-8');
 // debugging
 error_reporting(E_ALL);
@@ -31,9 +31,9 @@ class sharebar
 
     public function __construct()
     {
-       $this->post_vars = $_REQUEST;
-       throw new Exception if(!$this->post_vars) {
-            ("No data");
+        $this->post_vars = $_REQUEST;
+        if(!$this->post_vars) {
+            throw new Exception("No data");
         }
 		if(isset($this->post_vars['post_url']) && $this->post_vars['layout'] == 'inline_buttons'){ 
             $this->post_vars['url'] = $this->post_vars['post_url'];

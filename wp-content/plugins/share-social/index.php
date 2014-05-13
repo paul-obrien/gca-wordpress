@@ -3,7 +3,7 @@
 Plugin Name: Cunjo
 Plugin URI: http://cunjo.com
 Description: Cunjo's Social Plugin is a free, pretty, flexible and mobile ready Social Share Plugin. Way Better than most famous similar providers.
-Version: 2.2.3
+Version: 2.2.5
 Author: Biro Florin, Josh Foote
 Author URI: http://cunjo.com/
 License: GPLv2 or later
@@ -118,7 +118,7 @@ if(class_exists('CunjoShare_Plugin') == false){
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             dbDelta($sql);
             
-            add_site_option("cunjoshare_plugin_version", "2.2.3");
+            add_site_option("cunjoshare_plugin_version", "2.2.5");
             add_site_option("cunjoshare_db_version", "1.1");
 			add_site_option("cunjo_plugin_url", plugins_url('/share-social/'));
 			add_site_option("cunjo_plugin_path", plugin_dir_path( __FILE__ ));
@@ -885,11 +885,11 @@ if(class_exists('CunjoShare_Plugin') == false){
                 // if we're trying to activate/deactivate a widget, make sure we have a share ID
                 if(strstr($data['action'], "activate") OR strstr($data['action'], "deactivate"))
                 {
-                    $share_id = get_site_option('cunjoshare_shareid');
+                    /*$share_id = get_site_option('cunjoshare_shareid');
                     if(!$share_id OR strlen($share_id) <= 0){
                         echo json_encode(array("status" => "error", 'message' => "You must have a Cunjo ID in order to activate widgets!"));
                         exit;
-                    }
+                    }*/
                     
                     $success = $this->setting_manager->save_widget_setting(array(
                         'layout'            => $data['layout'],

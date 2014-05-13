@@ -39,8 +39,8 @@ div.upme-wrap .upme-head img.avatar-50 {
 }
 
 div.upme-wrap .upme-head img.avatar-100 {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
 }
 
 div.upme-head {
@@ -1052,8 +1052,12 @@ html{
     line-height: 25px;
 }
 
-#edit-profile-message {
-    height: 30px;
+#top-edit-profile-message {
+    margin-bottom: 10px;
+}
+
+#bottom-edit-profile-message {
+    margin-bottom: 20px;
 }
 
 .pre-profile-props {

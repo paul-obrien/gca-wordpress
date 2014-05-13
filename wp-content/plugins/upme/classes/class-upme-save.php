@@ -119,14 +119,6 @@ class UPME_Save {
         }
     }
 
-    function urlize_meta($meta, $userid) {
-        return $this->urlize_string(get_the_author_meta($meta, $userid));
-    }
-
-    function urlize_string($str) {
-        return strtolower(preg_replace("/ +/", '-', preg_replace("/[^A-Za-z0-9 ]/", '', preg_replace("/&.*;/", '', $str))));
-    }
-
     /* Update user meta */
 
     function update() {
@@ -199,11 +191,11 @@ class UPME_Save {
         }
 
         // Set the user's public URL
-        $sport = $this->urlize_meta('sport', $this->userid);
-        $first_name = $this->urlize_meta('first_name', $this->userid);
-        $last_name = $this->urlize_meta('last_name', $this->userid);
-        $position = $this->urlize_meta('position', $this->userid);
-        $team = $this->urlize_meta('Team', $this->userid);
+        $sport = urlize_meta('sport', $this->userid);
+        $first_name = urlize_meta('first_name', $this->userid);
+        $last_name = urlize_meta('last_name', $this->userid);
+        $position = urlize_meta('position', $this->userid);
+        $team = urlize_meta('Team', $this->userid);
         $public_url = $sport . '-recruiting/' . $first_name . '-' . $last_name . '-' . $position . '-' . $team;
         $base_url = $public_url;
         $count = 1;
@@ -235,19 +227,16 @@ class UPME_Save {
             $errors = true;
         }
 
-        $slug = $this->urlize_string($college_name);
-
-        $statement = "CREATE TABLE IF NOT EXISTS gca_college_messages 
-                      ( user_id bigint(20) unsigned, college varchar(100), 
-                        slug varchar(255), message longtext, primary key (slug), 
-                        index user_id_cm (user_id))";
-        $wpdb->query($statement);
+        $slug = urlize_string($college_name);
 
         if (!$errors) {
-            if ($college == 'new')
+            if ($college == 'new') {
                 $statement = "INSERT INTO gca_college_messages (user_id, college, slug, message)
                               values (" . $this->userid . ", '" . $college_name . "', '" . $slug . "', '" . $message . "')";
-            else
+                $this->message = "Message has been added. The public URL to your profile including this message is<br>" . 
+                                 "http://www.goalcollegeathlete.com/profile/" . get_the_author_meta('slug', $this->userid) .
+                                 "/for-" . $slug . "-coaching-staff";
+            } else
                 $statement = "UPDATE gca_college_messages SET slug = '" . $slug . "', message = '" . $message . 
                              "' WHERE user_id = " . $this->userid . " AND college = '" . $college_name . "'";
 
@@ -268,7 +257,9 @@ class UPME_Save {
             $display .= '</div>';
         } else {
             /* Success message */
-            if ($id == $upme->logged_in_user) {
+            if ($this->message) {
+                $display .= '<div class="upme-success"><span><i class="upme-icon-ok"></i>' . $this->message . "</span></div>";
+            } else if ($id == $upme->logged_in_user) {
                 $display .= '<div class="upme-success"><span><i class="upme-icon-ok"></i>' . __('Your profile was updated.', 'upme') . '</span></div>';
             } else {
                 $display .= '<div class="upme-success"><span><i class="upme-icon-ok"></i>' . __('Profile was updated.', 'upme') . '</span></div>';

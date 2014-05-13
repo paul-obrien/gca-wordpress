@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2014-03-03 12:30:25
+<?php /* Smarty version Smarty-3.1.13, created on 2014-04-11 12:08:18
          compiled from "layouts/bottom_simple_tab/html.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:9533641605314d851138f39-29077913%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:115310564153482f921cd8a8-88042885%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'fac6dc6cb8cbc0343b0321deb7e99092f49e9b7d' => 
     array (
       0 => 'layouts/bottom_simple_tab/html.tpl',
-      1 => 1386818941,
+      1 => 1397239344,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '9533641605314d851138f39-29077913',
+  'nocache_hash' => '115310564153482f921cd8a8-88042885',
   'function' => 
   array (
   ),
@@ -54,9 +54,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.13',
-  'unifunc' => 'content_5314d851503e30_64963148',
+  'unifunc' => 'content_53482f9251c230_37045133',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5314d851503e30_64963148')) {function content_5314d851503e30_64963148($_smarty_tpl) {?><?php  $_config = new Smarty_Internal_Config("locale.conf", $_smarty_tpl->smarty, $_smarty_tpl);$_config->loadConfigVars($_smarty_tpl->tpl_vars['lang']->value, 'local'); ?>
+<?php if ($_valid && !is_callable('content_53482f9251c230_37045133')) {function content_53482f9251c230_37045133($_smarty_tpl) {?><?php  $_config = new Smarty_Internal_Config("locale.conf", $_smarty_tpl->smarty, $_smarty_tpl);$_config->loadConfigVars($_smarty_tpl->tpl_vars['lang']->value, 'local'); ?>
 <script type="text/javascript">
 jQuery('cunjoTitle').html(document.title);
 jQuery('meta').each(function(i, obj) {
@@ -323,7 +323,7 @@ _btm_simple_tb maxwidth_btm_simple_tb">
         <?php if ($_smarty_tpl->tpl_vars['nocredits']->value==false){?>
             <li class="space_btm_simple_tb"></li>
         <?php }else{ ?>
-            <li class="cunjo_credits_btm_simple_tb <?php if (isset($_smarty_tpl->tpl_vars['tooltip']->value)&&$_smarty_tpl->tpl_vars['tooltip']->value=='yes'){?>cunjo_tooltip<?php }?>" title="!Share"><a href="http://share.cunjo.com" target="_blank" class="cunjo_more_modal"><span class="iconz-cunjo"></span></a></li>
+            <li class="cunjo_credits_btm_simple_tb <?php if (isset($_smarty_tpl->tpl_vars['tooltip']->value)&&$_smarty_tpl->tpl_vars['tooltip']->value=='yes'){?>cunjo_tooltip<?php }?>" title="!Share"><a href="http://cunjo.com" target="_blank" class="cunjo_more_modal"><span class="iconz-cunjo"></span></a></li>
         <?php }?>
         <?php if (isset($_smarty_tpl->tpl_vars['message']->value)&&$_smarty_tpl->tpl_vars['message']->value!=''){?>
         <li class="cunjo_messages_holder_btm_simple_tb <?php echo $_smarty_tpl->tpl_vars['message_pos']->value;?>

@@ -18,7 +18,7 @@
                                     <li><a href="<?php echo network_admin_url( 'admin.php?page=cunjo_social_analytics') ;?>"><i class="appz-stats"></i> Social analytics</a></li>
                                     <li class="divider"></li>
                                     <?php if(!isset($view_data['wp_options']['cunjoshare_checkU']) || $view_data['wp_options']['cunjoshare_checkU'] == 'Free'): ?>
-                                    <li class="warning"><a href="http://share.cunjo.com/register/" target="_blank"><i class="appz-fire"></i> Go Premium!</a></li>
+                                    <li class="warning"><a href="http://cunjo.com/register/" target="_blank"><i class="appz-fire"></i> Go Premium!</a></li>
                                     <?php endif; ?>
                                     <li><a href="http://cunjo.com" target="_blank"><i class="appz-curiosity-logo"></i> Cunjo website</a></li>
                                 </ul>
@@ -38,13 +38,13 @@
                     <div class="tab-content">
                     	<div class="tab-pane active" id="general">
                         	<?php if(!isset($view_data['wp_options']['cunjoshare_shareid']) || empty($view_data['wp_options']['cunjoshare_shareid']) || $view_data['wp_options']['cunjoshare_shareid'] == ''): ?>
-                            <div class="alert alert-warning" style="margin-bottom: 0;margin-top: 20px;">
+                            <!--<div class="alert alert-warning" style="margin-bottom: 0;margin-top: 20px;">
                                 <strong>Warning!</strong> You wil not be able to use any of the features if you do not have a Cunjo ID. <a id="cunjo_registerShare" data-toggle="modal" data-target="#registerShare" class="btn btn-inverse">CLICK HERE</a> to register one!
-                            </div>
+                            </div>-->
                             <?php endif; ?>
                             <div class="row">
                             	<div class="col-md-6">
-                                	<div class="form-group" id="shareid-group">
+                                	<!--<div class="form-group" id="shareid-group">
                                         <label class="control-label" for="cunjo_shareid">Cunjo ID</label>
                                         <div class="input-group">
                                             <input type="text" name="shareid" id="cunjo_shareid" class="form-control" value="<?php echo(isset($view_data['wp_options']['cunjoshare_shareid']))? $view_data['wp_options']['cunjoshare_shareid'] : ''; ?>">
@@ -285,7 +285,7 @@
     </div>
     <div class="col-lg-2 col-md-1"></div>
 </div>
-<div style="text-align:center;"><a href="http://share.cunjo.com/platform/contribute/?donation" target="_blank">Like this plugin? Consider helping with a donation.</a></div>
+<div style="text-align:center;"><a href="http://cunjo.com/platform/contribute/?donation" target="_blank">Like this plugin? Consider helping with a donation.</a></div>
 
 <!-- Register Cunjo ID -->
   <div class="modal" id="registerShare" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -331,7 +331,7 @@
         </div>
         <div class="modal-footer">
             <label class="pull-left" style="display:inline-block;">
-              <input type="checkbox" id="registerid-terms" style="margin: 2px 0 0;"> I agree with <a href="http://share.cunjo.com/cunjo-share-terms-conditions/" target="_blank">Terms & Conditions</a>
+              <input type="checkbox" id="registerid-terms" style="margin: 2px 0 0;"> I agree with <a href="http://cunjo.com/cunjo-share-terms-conditions/" target="_blank">Terms & Conditions</a>
             </label>
           <button type="button" class="btn btn-default" data-dismiss="modal"><i class="appz-close"></i> Close</button>
           <button type="button" class="btn btn-primary" id="submit-registerid" data-loading-text="loading..."><i class="appz-checkmark-2"></i> Register</button>

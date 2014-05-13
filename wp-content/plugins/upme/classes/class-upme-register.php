@@ -147,7 +147,18 @@ class UPME_Register {
                         wp_update_user(array('ID' => $user_id, $key => esc_attr($value)));
                     }
                 }
-
+                // Set the user's public URL
+                $sport = urlize_meta('sport', $user_id);
+                $first_name = urlize_meta('first_name', $user_id);
+                $last_name = urlize_meta('last_name', $user_id);
+                $public_url = $sport . '-recruiting/' . $first_name . '-' . $last_name;
+                $base_url = $public_url;
+                $count = 1;
+                while(!is_slug_unique($public_url, $this->userid)) {
+                  $public_url = $base_url . '-' . $count;
+                  $count = $count + 1;
+                }
+                update_user_meta($user_id, 'slug', $public_url);
 
                 // Check user selected passwrod setting for saving the activation details
 

@@ -78,7 +78,7 @@ jQuery(function($)
 	//save general settings
 	$(document.body).on('click', '#general_settings-submit', function(){
 		$(this).addClass('disabled');
-		var checkU = checkID($('#cunjo_shareid').val());
+		/*var checkU = checkID($('#cunjo_shareid').val());
 		if($('#cunjo_shareid').val() == '') {
 			$('.msg-container').html('<div class="alert alert-error" style="margin-bottom: 0;margin-top: 20px;">\
 															<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\
@@ -93,7 +93,7 @@ jQuery(function($)
 															</div>').slideDown(200);
 			$('#general_settings-submit').removeClass('disabled');
 		}
-		else {
+		else {*/
 			var action = "SaveGeneralSetting";
 			var controller = "Settings/SaveGeneralSetting";
 			bootbox.confirm('<h4><i class="appz-question"></i> Are you sure you want to save these settings?</h4>', function(result) {
@@ -101,7 +101,7 @@ jQuery(function($)
 						
 						$.ajax({
 						  url: ajaxurl,
-						  data: "action=" + action + "&controller=" + controller + "&checkU="+ checkU +"&" + $('#general_settings-form').serialize(),
+						  data: "action=" + action + "&controller=" + controller /*+ "&checkU="+ checkU*/ +"&" + $('#general_settings-form').serialize(),
 						  type: "POST", 
 						  dataType: "json",
 						  async: true,
@@ -124,7 +124,7 @@ jQuery(function($)
 					}
 		   });
 			
-		}
+		/*}*/
 	});
 	//activate widgets
 	$(document.body).on('click', '.activate-widget', function(e) {
@@ -283,7 +283,7 @@ jQuery(function($)
 			<a href="javascript:void(0)" id="cancel-leave-feedback" class="btn btn-default btn-xs" style="font-size:12px;float:right;color:#333!important; display: inline-block;"><i class="appz-close-3" style="font-size: 14px;"></i> Close</a>\
 			<div style="clear:both"></div>';
 		if(!$('#cunjo_id').val()){
-			idform += '<a href="http://share.cunjo.com/register/" target="_blank" style="font-size:12px; margin-top: 10px;vertical-align:top;">No ID? Register FREE here <i class="appz-point-right" style="font-size:14px;"></i></a>';
+			idform += '<a href="http://cunjo.com/register/" target="_blank" style="font-size:12px; margin-top: 10px;vertical-align:top;">No ID? Register FREE here <i class="appz-point-right" style="font-size:14px;"></i></a>';
 		}
 			$('#leave-feedback').popover({
 				'trigger': 'manual',

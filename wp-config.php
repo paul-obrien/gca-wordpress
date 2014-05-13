@@ -38,14 +38,14 @@ define('DB_COLLATE', '');
 *
 * @since 2.6.0
 */
-define('AUTH_KEY',         'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
-define('SECURE_AUTH_KEY',  'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
-define('LOGGED_IN_KEY',    'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
-define('NONCE_KEY',        'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
-define('AUTH_SALT',        'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('AUTH_KEY', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('SECURE_AUTH_KEY', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('LOGGED_IN_KEY', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('NONCE_KEY', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('AUTH_SALT', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
 define('SECURE_AUTH_SALT', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
-define('LOGGED_IN_SALT',   'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
-define('NONCE_SALT',       'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('LOGGED_IN_SALT', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
+define('NONCE_SALT', 'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bSFqWgrtJc3HAn');
 /**#@-*/
 /**
 * WordPress Database Table prefix.
@@ -53,11 +53,11 @@ define('NONCE_SALT',       'LzoIll854g3luTUmbOe46JS4R7PnBEWBLNc5tApDaBvqnNYMD8bS
 * You can have multiple installations in one database if you give each a unique
 * prefix. Only numbers, letters, and underscores please!
 */
-$table_prefix  = 'wp_blazegiants';
+$table_prefix = 'wp_blazegiants';
 /**
 * WordPress Localized Language, defaults to English.
 *
-* Change this to localize WordPress.  A corresponding MO file for the chosen
+* Change this to localize WordPress. A corresponding MO file for the chosen
 * language must be installed to wp-content/languages. For example, install
 * de.mo to wp-content/languages and set WPLANG to 'de' to enable German
 * language support.
@@ -79,5 +79,4 @@ if ( !defined('ABSPATH') )
 define('ABSPATH', dirname(__FILE__) . '/');
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
-
 

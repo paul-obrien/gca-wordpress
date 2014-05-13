@@ -2100,7 +2100,7 @@ class UPME {
                     if ($message_slug)
                         $display .= '<div class="pre-profile-props upme-view">' . $this->college_message($id, $message_slug) . '</div>';
                     else if ($this->can_edit_profile($this->logged_in_user, $id)) {
-                        $display .= '<div class="pre-profile-props upme-view">Public Profile URL: http://goalcollegeathlete.com/profile/' . 
+                        $display .= '<div class="pre-profile-props upme-view">Public Profile URL: http://www.goalcollegeathlete.com/profile/' . 
                                     get_the_author_meta('slug', $id) . '</div>'; 
                     }
                     $display .= $this->show_profile_fields($id, $view);
@@ -2292,7 +2292,7 @@ class UPME {
       $display .= "</form></div>";
 
       $display .= "<script language='javascript'>\njQuery(document).ready(function() {\nvar colleges = {};\njQuery('#message-public-url').hide();\n";
-      $display .= "var base_slug = 'http://goalcollegeathlete.com/" . $base_slug . "'\n";
+      $display .= "var base_slug = 'http://www.goalcollegeathlete.com/profile/" . $base_slug . "'\n";
       $rows = $wpdb->get_results( "SELECT college, slug, message FROM gca_college_messages WHERE user_id = " . $id . " ORDER BY college");
       foreach ($rows as $row) {
          $college_name = str_replace("'", "\'", $row->college);
@@ -2348,8 +2348,8 @@ class UPME {
                 $display .= '<form id="upme-edit-profile-form" class="upme-edit-profile-form" action="" method="post" enctype="multipart/form-data">';
             }
             
-            $display .= '<div id="edit-profile-message" class="upme-edit">Any field you don’t put information into won’t show up in your Public Profile</div>';
-            $display .= '<div id="edit-profile-message" class="upme-edit">Remember to always click Update Profile to save changes.';
+            $display .= '<div id="top-edit-profile-message" class="upme-edit">REMINDER: If you leave a field blank it’s OKAY. Blank fields will NOT appear in your Public Profile. If you decide to add information later, fields will then appear.</div>';
+            $display .= '<div id="bottom-edit-profile-message" class="upme-edit">REMEMBER: To always click Update Profile to save changes.';
             $display .= '&nbsp;&nbsp;<input type="submit" name="upme-submit-' . $id . '" class="upme-button upme-edit" value="' . __('Update Profile', 'upme') . '" /></div>';
             $array = get_option('upme_profile_fields');
             //echo "<pre>";print_r($array);exit;

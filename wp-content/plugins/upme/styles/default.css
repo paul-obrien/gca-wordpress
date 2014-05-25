@@ -54,6 +54,7 @@ div.upme-wrap div.upme-field-name a:hover {
 
 .upme-field-value,.upme-post-field-value, .upme-post-feature-value {
 	color: #000;
+	font-weight: bold;
 }
 
 input.upme-input, select.upme-input, textarea.upme-input, input.upme-datepicker, input.upme-datepicker[readonly] {

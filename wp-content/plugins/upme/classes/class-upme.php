@@ -42,15 +42,15 @@ class UPME {
         $set_pass = $this->get_option('set_password');
         if ($set_pass) {
             $this->registration_fields = array(
-                50 => array(
-                    'icon' => 'user',
-                    'field' => 'text',
-                    'type' => 'usermeta',
-                    'meta' => 'user_login',
-                    'name' => __('Username', 'upme'),
-                    'required' => 1,
-                    'help_text' => ''
-                ),
+                //50 => array(
+                //    'icon' => 'user',
+                //    'field' => 'text',
+                //    'type' => 'usermeta',
+                //    'meta' => 'user_login',
+                //    'name' => __('Username', 'upme'),
+                //    'required' => 1,
+                //    'help_text' => ''
+                //),
                 100 => array(
                     'icon' => 'envelope',
                     'field' => 'text',
@@ -81,12 +81,12 @@ class UPME {
                     'can_hide' => 0,
                     'help_text' => __('Type your password again.', 'upme')
                 ),
-                250 => array(
-                    'icon' => 0,
-                    'field' => 'password_indicator',
-                    'type' => 'usermeta',
-                    'help_text' => ''
-                ),
+                //250 => array(
+                //    'icon' => 0,
+                //    'field' => 'password_indicator',
+                //    'type' => 'usermeta',
+                //    'help_text' => ''
+                //),
                 300 => array(
                     'icon' => 'user-md',
                     'field' => 'select',
@@ -2097,11 +2097,20 @@ class UPME {
                         $display .= $upme_save->get_errors($id);
                     }
 
-                    if ($message_slug)
-                        $display .= '<div class="pre-profile-props upme-view">' . $this->college_message($id, $message_slug) . '</div>';
+                    if ($message_slug) {
+                        $message_info = $this->college_message($id, $message_slug);
+                        $display .= '<div class="pre-profile-props upme-view"><span id="coaching-staff">Message to ' . $message_info->college . " Coaching Staff:</span> <span id='custom_message'>" . $message_info->message . '</span></div>';
+                    }
                     else if ($this->can_edit_profile($this->logged_in_user, $id)) {
-                        $display .= '<div class="pre-profile-props upme-view">Public Profile URL: http://www.goalcollegeathlete.com/profile/' . 
+                        $display .= '<div class="pre-profile-props upme-view"><b>Public Profile URL:</b> www.goalcollegeathlete.com/profile/' . 
                                     get_the_author_meta('slug', $id) . '</div>'; 
+                        $display .= '<div class="pre-profile-props upme-view">The URL above is the link to your Public Online 
+                                      Athletic Profile. Paste it into your emails to college coaches so they can learn more about 
+                                      you as a student, athlete and person. For example emails to college coaches and where to 
+                                      insert the Profile URL please see 
+                                      <a href="http://www.goalcollegeathlete.com/student-athlete-guide-to-be-recruited/how-to-email-college-coaches/">here</a>.</div>
+                                     <div class="pre-profile-props upme-view"><b>Note:</b> The text above describing the URL only appears to you. This text will NOT appear to Coaches or others viewing your Public Online Athletic Profile.</div>';
+
                     }
                     $display .= $this->show_profile_fields($id, $view);
                     $display .= $this->edit_profile_fields($id, $width, $sidebar_class);
@@ -2248,8 +2257,8 @@ class UPME {
 
     function college_message($userid, $message_slug) {
        global $wpdb;
-       $rows = $wpdb->get_results( "SELECT message FROM gca_college_messages WHERE user_id = " . $userid . " AND slug = '" . $message_slug . "'");
-       return $rows[0]->message;
+       $rows = $wpdb->get_results( "SELECT college, message FROM gca_college_messages WHERE user_id = " . $userid . " AND slug = '" . $message_slug . "'");
+       return $rows[0];
     }
 
     function edit_college_messages($id, $width=null, $sidebar_class=null) {
@@ -2289,7 +2298,25 @@ class UPME {
       $display .= '<input type="hidden" id="upme-edit-usr-id" value="' . $id . '" />';
       $display .= '<input type="submit" id="message-submit" name="upme-messages-' . $id . '" class="upme-button" value="Add Message"/>';
       $display .= '</div></div>';
-      $display .= "</form></div>";
+      $display .= "</form>";
+      $display .= "<div class='college-message-info-header'>What is a College Message and Why should I create one?</div>";
+      $display .= "<div class='college-message-info'>A College Message is a personalized message to a specific College or University’s coaching staff. 
+                     College Coaches want to hear why you want to be a part of their program and this message gives you the 
+                     opportunity to tell them and also customizes your profile for their particular team: A new personalized 
+                     webpage and URL will be created with the College Message at the top of your Public Profile. Inserting this 
+                     custom URL into your emails will get greater attention from coaches and more clicks to your profile.</div>";
+      $display .= "<div class='college-message-info'>Only you know why you want to play at a particular school but examples may include that you were a fan of 
+                     the school since you were a kid, you respect the coach’s style of play, you know they are graduating players at 
+                     your position and you can fill the void, your style of play fits with the programs, you have old high school 
+                     teammates on the team who have told you about the program, you are interested in a particular major at the 
+                     school, etc. Tell College Coaches YOUR OWN personal reason for wanting to be a part of their program. 
+                     If College Coaches hear a more personal message they will be more apt to respond to you because you are 
+                     investing time in this process and showing them you really want to be a part of their program.</div>";
+      $display .= "<div class='college-message-info'>After you create a New College Message a message will appear with your new URL. This is the URL you would 
+                     use when emailing that particular school and coaching staff. Paste the new URL in your browser bar to check out 
+                     your Profile with the College Message. Your College Message and URL will also be saved, just click the College 
+                     Message Box at any time to return to the message and URL. You can create as many College Messages as you would 
+                     like.</div></div>";
 
       $display .= "<script language='javascript'>\njQuery(document).ready(function() {\nvar colleges = {};\njQuery('#message-public-url').hide();\n";
       $display .= "var base_slug = 'http://www.goalcollegeathlete.com/profile/" . $base_slug . "'\n";
@@ -2348,8 +2375,8 @@ class UPME {
                 $display .= '<form id="upme-edit-profile-form" class="upme-edit-profile-form" action="" method="post" enctype="multipart/form-data">';
             }
             
-            $display .= '<div id="top-edit-profile-message" class="upme-edit">REMINDER: If you leave a field blank it’s OKAY. Blank fields will NOT appear in your Public Profile. If you decide to add information later, fields will then appear.</div>';
-            $display .= '<div id="bottom-edit-profile-message" class="upme-edit">REMEMBER: To always click Update Profile to save changes.';
+            $display .= '<div id="top-edit-profile-message" class="upme-edit"><b>REMINDER:</b> If you leave a field blank it’s OKAY. Blank fields will NOT appear in your Public Profile. If you decide to add information later, fields will then appear.</div>';
+            $display .= '<div id="bottom-edit-profile-message" class="upme-edit"><b>REMEMBER:</b> To always click Update Profile to save changes.';
             $display .= '&nbsp;&nbsp;<input type="submit" name="upme-submit-' . $id . '" class="upme-button upme-edit" value="' . __('Update Profile', 'upme') . '" /></div>';
             $array = get_option('upme_profile_fields');
             //echo "<pre>";print_r($array);exit;
@@ -2857,7 +2884,7 @@ class UPME {
 
 
                                     if (in_array($meta, array('first_name', 'last_name', 'sport', 'gender', 'hometown', 'class_of',
-                                                              'height', 'weight', '', 'state', 'country', 'date_of_birth'))) {
+                                                              'height', 'weight', '', 'state', 'Country', 'date_of_birth'))) {
                                         
                                     } else {
 
@@ -3152,51 +3179,52 @@ class UPME {
 
 
             // Display the head section for default screen and error messages
-            if (!isset($display_errors['status']) || (isset($display_errors['status']) && ("error" == $display_errors['status']))) {
+            //if (!isset($display_errors['status']) || (isset($display_errors['status']) && ("error" == $display_errors['status']))) {
 
                 /* UPME Filters for before registration head section */
-                $display .= apply_filters( 'upme_register_before_head', '');
+                //$display .= apply_filters( 'upme_register_before_head', '');
                 // End Filters
 
-                $display .= '               <div class="upme-head">
+                //$display .= '               <div class="upme-head">
                  
-                <div class="upme-left">
-                <div class="' . $pic_class . '">';
+                //<div class="upme-left">
+                //<div class="' . $pic_class . '">';
 
-                if (isset($_POST['upme-register']) && $_POST['user_email'] != '') {
-                    $display .= $this->pic($_POST['user_email'], 50);
-                } else {
-                    $display .= $this->pic('john@doe.com', 50);
-                }
+                //if (isset($_POST['upme-register']) && $_POST['user_email'] != '') {
+                //    $display .= $this->pic($_POST['user_email'], 50);
+                //} else {
+                //    $display .= $this->pic('john@doe.com', 50);
+                //}
 
-                $display .= '</div>';
+                //$display .= '</div>';
 
-                $display .= '<div class="upme-name">
+                //$display .= '<div class="upme-name">
 
-                <div class="upme-field-name upme-field-name-wide">';
+                //<div class="upme-field-name upme-field-name-wide">';
 
-                if (isset($_POST['upme-register']) && $_POST['display_name'] != '') {
-                    $display .= $_POST['display_name'];
-                } else {
-                    $display .= __('Your name will appear here.', 'upme');
-                }
+                //if (isset($_POST['upme-register']) && $_POST['display_name'] != '') {
+                //    $display .= $_POST['display_name'];
+                //} 
+                //else {
+                //    $display .= __('Your name will appear here.', 'upme');
+                //}
 
-                $display .= '</div>
+                //$display .= '</div>
 
-                </div>';
+                //</div>';
 
-                $display .= '</div>';
+                //$display .= '</div>';
 
 
-                $display .= '<div class="upme-right">';
+                //$display .= '<div class="upme-right">';
 
-                $display .= '</div><div class="upme-clear"></div>
+                //$display .= '</div><div class="upme-clear"></div>
                  
-                </div>';
-            }
+                //</div>';
+            //}
 
             /* UPME Filters for after registration head section */
-            $display .= apply_filters( 'upme_register_after_head', '');
+            //$display .= apply_filters( 'upme_register_after_head', '');
             // End Filters
 
             $display .= '               <div class="upme-main">
@@ -3253,7 +3281,7 @@ class UPME {
 
             $display .= '<form action="" method="post" id="upme-registration-form">';
 
-            $display .= '<div class="upme-field upme-separator upme-edit upme-edit-show upme-clearfix">' . __('Account Info', 'upme') . '</div>';
+            //$display .= '<div class="upme-field upme-separator upme-edit upme-edit-show upme-clearfix">' . __('Account Info', 'upme') . '</div>';
 
             /* Add Account Information Fields to top of Registration fields */
             foreach ($this->registration_fields as $key => $field) {
@@ -3365,22 +3393,22 @@ class UPME {
                                 }
                         }
 
-                        if (isset($help_text) && !empty($help_text)) {
-                            $display .= '<div class="upme-help-text upme-help">' . $help_text . '</div>';
-                        }
+                        //if (isset($help_text) && !empty($help_text)) {
+                        //    $display .= '<div class="upme-help-text upme-help">' . $help_text . '</div>';
+                        //}
 
                         /* User can hide this from public */
-                        if (isset($this->registration_fields[$key]['can_hide']) && $can_hide == 1) {
+                        //if (isset($this->registration_fields[$key]['can_hide']) && $can_hide == 1) {
 
-                            foreach ($array as $key => $meta_field) {
-                                if ('user_email' == $meta_field['meta'] && 1 == $meta_field['can_hide']) {
-                                    $display .= '<div class="upme-hide-from-public">
-                        <i class="upme-icon-check-empty"></i>' . __('Hide from Public', 'upme') . '
-                        <input type="hidden" name="hide_' . $meta . '" id="hide_' . $meta . '" value="" />
-                        </div>';
-                                }
-                            }
-                        }
+                        //    foreach ($array as $key => $meta_field) {
+                        //        if ('user_email' == $meta_field['meta'] && 1 == $meta_field['can_hide']) {
+                        //            $display .= '<div class="upme-hide-from-public">
+                        //<i class="upme-icon-check-empty"></i>' . __('Hide from Public', 'upme') . '
+                        //<input type="hidden" name="hide_' . $meta . '" id="hide_' . $meta . '" value="" />
+                        //</div>';
+                        //        }
+                        //    }
+                        //}
 
 
 

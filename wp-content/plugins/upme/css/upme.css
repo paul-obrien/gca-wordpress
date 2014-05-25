@@ -208,7 +208,8 @@ div.upme-field-name a {
 
 .upme-field-type {
     float: left;
-    width: 34%;
+    width: 25%;
+    margin-right: 20px;
 }
 
 .upme-field-value {
@@ -1062,6 +1063,48 @@ html{
 
 .pre-profile-props {
     margin-bottom: 20px;
+}
+
+.pre-profile-props a {
+    color: #0d3ea1 !important;
+}
+
+.college-message-info-header {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.college-message-info {
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+#custom_message {
+    font-weight: normal;
+}
+
+#coaching-staff {
+    font-weight: bold;
+}
+
+#upme-registration .upme-input {
+    background: #FFFFFF;
+    color: #000000;
+    opacity: 1.0;
+    border: none;
+    width: 94%;
+    padding: 8px 4px 8px 10px;
+    margin-bottom: 15px;
+    border-radius: 2px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    font-family: 'Raleway', 'Lato', Arial, sans-serif;
+    font-size: 13px;
 }
 
 

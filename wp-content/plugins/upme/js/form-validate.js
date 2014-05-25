@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
                 if(!jQuery('#reg_user_pass').hasClass('error')) {
                     
                     // Validate password strength using the system setting
-                    var passData = upmeValidatePasswordStrength("#reg_user_pass","#reg_user_pass_confirm","#reg_user_login");
+                    var passData = upmeValidatePasswordStrength("#reg_user_pass","#reg_user_pass_confirm","#reg_user_email");
                     if(passData[0])
                         err = true;
                     err_msg += passData[1];
@@ -157,7 +157,7 @@ jQuery(document).ready(function() {
                     Validate.ajaxurl,
                     {
                         'action': 'check_email_username',
-                        'user_name':   jQuery('#reg_user_login').val(),
+                        'user_name':   jQuery('#reg_user_email').val(),
                         'email_id': jQuery('#reg_user_email').val()
                     },
                     function(response){
@@ -731,7 +731,7 @@ jQuery(document).ready(function(){
       if(jQuery("#password-meter-message").length > 0){
 
             if(jQuery('#reg_user_pass').length > 0){
-                upmePasswordStrengthMeter("#reg_user_pass","#reg_user_pass_confirm","#reg_user_login");
+                upmePasswordStrengthMeter("#reg_user_pass","#reg_user_pass_confirm","#reg_user_email");
             
             }
 
